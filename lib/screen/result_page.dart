@@ -1,11 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-
 import 'package:http/http.dart';
-
+import 'package:dictionary_app/utility/dbconnection.dart';
 
 class ResultsPage extends StatefulWidget {
   @override
@@ -22,6 +20,8 @@ class _ResultsPageState extends State<ResultsPage> {
   Stream _stream;
 
   Timer _debounce;
+  Color fevcolor=Colors.black;
+  Future _futurevalue;
 
   _search() async {
     if (_controller.text == null || _controller.text.length == 0) {
@@ -37,13 +37,22 @@ class _ResultsPageState extends State<ResultsPage> {
   @override
   void initState() {
     super.initState();
-
+    _futurevalue=getdictionary();
     _streamController = StreamController();
     _stream = _streamController.stream;
+  }
+  List<Map<String, dynamic>> all;
+
+  getdictionary() async{
+
+      all= await DBprovider.db.getdictionary();
+      print(all);
+
   }
 
   @override
   Widget build(BuildContext context) {
+
     List<String> savedWords = List<String>();
     String word = "yes";
     bool isClicked=savedWords.isNotEmpty;
@@ -94,68 +103,67 @@ class _ResultsPageState extends State<ResultsPage> {
       ),
       body: Container(
         margin: const EdgeInsets.all(8.0),
-        child: StreamBuilder(
-          stream: _stream,
-          builder: (BuildContext ctx, AsyncSnapshot snapshot) {
-            if (snapshot.data == null) {
-              return Center(
-                child: Text("Enter a search word"),
-              );
-            }
+        child: FutureBuilder(
+        future: _futurevalue,
+        builder: (context, snapshot) {
 
-            if (snapshot.data == "waiting") {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
+          switch(snapshot.connectionState){
+            case ConnectionState.none:
+              return Text('Waiting...');
+            case ConnectionState.active:
+              return  Text('Waiting...');
+            case ConnectionState.done:
+              return ListView.builder(
+                itemCount: all.length,
 
-            return ListView.builder(
-              itemCount: snapshot.data["definitions"].length,
-              itemBuilder: (BuildContext context, int index) {
-                return ListBody(
-                  children: <Widget>[
-                    Container(
-                      color: Colors.grey[300],
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: ListTile(
-                              leading: snapshot.data["definitions"][index]["image_url"] == null
-                                  ? null
-                                  : CircleAvatar(
-                                backgroundImage: NetworkImage(snapshot.data["definitions"][index]["image_url"]),
+                itemBuilder: (BuildContext context, int index) {
+                  return ListBody(
+                    children: <Widget>[
+                      Container(
+                        color: Colors.white,
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: ListTile(
+
+                                title: Text(
+                                  _controller.text.trim() + "(" + all[index]['Kistanigna'] +
+                                      ")", style: TextStyle(color: Colors.black),),
                               ),
-                              title: Text(_controller.text.trim() + "(" + snapshot.data["definitions"][index]["type"] + ")"),
                             ),
-                          ),
-                          IconButton(
-                            icon: Icon(
-                              isClicked?Icons.star:Icons.star_border,
-                              color: isClicked?Colors.red:Colors.black,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                if(savedWords.isEmpty)
-                                  savedWords.add(word);
-                                else
-                                  savedWords.clear();
-                                print(isClicked);
-                              });
+                            IconButton(
+
+                              icon: Icon(
+                                fevcolor == Colors.red ? Icons.star : Icons
+                                    .star_border,
+                                color: fevcolor,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  if (fevcolor == Colors.red)
+                                    fevcolor = Colors.black;
+                                  else
+                                    fevcolor = Colors.red;
+                                });
                               },
-                          )
-                        ],
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(snapshot.data["definitions"][index]["definition"]),
-                    )
-                  ],
-                );
-              },
-            );
-          },
-        ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(all[index]['Definition']),
+                      )
+                    ],
+                  );
+                },
+              );
+            default:
+              return Text("Failed",style: TextStyle(fontSize: 40),);
+          }
+
+        }
+        )
       ),
     );
   }

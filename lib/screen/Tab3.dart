@@ -29,7 +29,7 @@ class Tab3 extends StatelessWidget {
             onSearch: search,
             onItemFound: (Post post, int index) {
               return ListTile(
-                title: Text(post.title),
+                title: Text(post.title ),
                 subtitle: Text(post.description),
               );
             },

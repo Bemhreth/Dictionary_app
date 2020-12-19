@@ -1,17 +1,14 @@
+import 'dart:convert';
+
 import 'Tab1.dart';
 import 'Tab2.dart';
 import 'Tab3.dart';
-import 'package:csv/csv.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../component/customdata.dart';
-import '../constants.dart';
 import 'result_page.dart';
-import '../component/bottom_button.dart';
-import '../component/roundiconbutton.dart';
-import '../calculator_brain.dart';
+
 
 
 class InputPage extends StatefulWidget {
@@ -20,8 +17,11 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
+
+
   @override
   Widget build(BuildContext context) {
+    //csvtolist();
     return CustomScrollView(
       slivers: <Widget>[
         SliverAppBar(
@@ -67,7 +67,6 @@ class _InputPageState extends State<InputPage> {
                   ),
                 ),
               ),
-
             ],
           ),
         ),
