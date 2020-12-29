@@ -21,9 +21,9 @@ class _ResultsPageState extends State<ResultsPage> {
 //  String _token = "6bcd31a2dff4b7e3c3b0c10eda0408625e6f0950";
   Item selectedUser;
   List<Item> users = <Item>[
-    const Item('Kistanigna',Icon(Icons.flag,color:  const Color(0xFF167F67),)),
-    const Item('Amharic',Icon(Icons.flag,color:  const Color(0xFF167F67),)),
-    const Item('English',Icon(Icons.flag,color:  const Color(0xFF167F67),)),
+    const Item('Kistanigna',Icon(Icons.language,color: Colors.deepOrange,)),
+    const Item('Amharic',Icon(Icons.language,color:  Colors.deepOrange,)),
+    const Item('English',Icon(Icons.language,color:  Colors.deepOrange,)),
   ];
   TextEditingController _controller = TextEditingController();
 
@@ -128,7 +128,7 @@ class _ResultsPageState extends State<ResultsPage> {
                           SizedBox(width: 10,),
                           Text(
                             user.name,
-                            style:  TextStyle(color: Colors.black),
+                            style:  TextStyle(color: Colors.white),
                           ),
                         ],
                       ),
