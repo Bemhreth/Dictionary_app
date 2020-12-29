@@ -60,7 +60,7 @@ class _InputPageState extends State<InputPage> {
                   ),
                   body: TabBarView(
                     children: [
-                      ResultsPage(),
+                      ResultsPage('ኣመረተ','English','Amharic','Kistanigna'),
                       Tab2(),
 //                      Tab3()
                     ],
