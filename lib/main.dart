@@ -1,7 +1,5 @@
-import 'package:dictionary_app/screen/Tab1.dart';
 import 'package:flutter/material.dart';
 import 'screen/input_page.dart';
-import 'dart:io';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:csv/csv.dart';
 import 'package:dictionary_app/utility/dbconnection.dart';

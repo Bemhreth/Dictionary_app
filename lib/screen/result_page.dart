@@ -5,15 +5,26 @@ import 'package:flutter/rendering.dart';
 import 'package:http/http.dart';
 import 'package:dictionary_app/utility/dbconnection.dart';
 
+class Item {
+  const Item(this.name,this.icon);
+
+  final String name;
+  final Icon icon;
+}
 class ResultsPage extends StatefulWidget {
   @override
   _ResultsPageState createState() => _ResultsPageState();
 }
 class _ResultsPageState extends State<ResultsPage> {
 
-  String _url = "https://owlbot.info/api/v4/dictionary/";
-  String _token = "6bcd31a2dff4b7e3c3b0c10eda0408625e6f0950";
-
+//  String _url = "https://owlbot.info/api/v4/dictionary/";
+//  String _token = "6bcd31a2dff4b7e3c3b0c10eda0408625e6f0950";
+  Item selectedUser;
+  List<Item> users = <Item>[
+    const Item('Kistanigna',Icon(Icons.flag,color:  const Color(0xFF167F67),)),
+    const Item('Amharic',Icon(Icons.flag,color:  const Color(0xFF167F67),)),
+    const Item('English',Icon(Icons.flag,color:  const Color(0xFF167F67),)),
+  ];
   TextEditingController _controller = TextEditingController();
 
   StreamController _streamController;
@@ -23,16 +34,16 @@ class _ResultsPageState extends State<ResultsPage> {
   Color fevcolor=Colors.black;
   Future _futurevalue;
 
-  _search() async {
-    if (_controller.text == null || _controller.text.length == 0) {
-      _streamController.add(null);
-      return;
-    }
+//  _search() async {
+//    if (_controller.text == null || _controller.text.length == 0) {
+//      _streamController.add(null);
+//      return;
+//    }
 
-    _streamController.add("waiting");
-    Response response = await get(_url + _controller.text.trim(), headers: {"Authorization": "Token " + _token});
-    _streamController.add(json.decode(response.body));
-  }
+//    _streamController.add("waiting");
+//    Response response = await get(_url + _controller.text.trim(), headers: {"Authorization": "Token " + _token});
+//    _streamController.add(json.decode(response.body));
+//  }
 
   @override
   void initState() {
@@ -52,17 +63,16 @@ class _ResultsPageState extends State<ResultsPage> {
 
   @override
   Widget build(BuildContext context) {
-
-    List<String> savedWords = List<String>();
-    String word = "yes";
-    bool isClicked=savedWords.isNotEmpty;
+    String language;
     return Scaffold(
       appBar: AppBar(
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(48.0),
           child: Row(
             children: <Widget>[
+
               Expanded(
+                flex: 2,
                 child: Container(
                   margin: const EdgeInsets.only(left: 12.0, bottom: 8.0),
                   decoration: BoxDecoration(
@@ -75,7 +85,7 @@ class _ResultsPageState extends State<ResultsPage> {
                     onChanged: (String text) {
                       if (_debounce?.isActive ?? false) _debounce.cancel();
                       _debounce = Timer(const Duration(milliseconds: 1000), () {
-                        _search();
+//                        _search();
                       });
                     },
                     controller: _controller,
@@ -94,9 +104,38 @@ class _ResultsPageState extends State<ResultsPage> {
                   color: Colors.white,
                 ),
                 onPressed: () {
-                  _search();
+//                  _search();
                 },
-              )
+              ),
+              Expanded(
+                flex: 1,
+                child:DropdownButton<Item>(
+                  hint:  Text("Select language",style: TextStyle(color: Colors.white),),
+                  value: selectedUser,
+                  onChanged: (Item Value) {
+                    setState(() {
+                      selectedUser = Value;
+                      language=selectedUser.name;
+                      print(selectedUser.name);
+                    });
+                  },
+                  items: users.map((Item user) {
+                    return  DropdownMenuItem<Item>(
+                      value: user,
+                      child: Row(
+                        children: <Widget>[
+                          user.icon,
+                          SizedBox(width: 10,),
+                          Text(
+                            user.name,
+                            style:  TextStyle(color: Colors.black),
+                          ),
+                        ],
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ),
             ],
           ),
         ),
@@ -127,25 +166,26 @@ class _ResultsPageState extends State<ResultsPage> {
                               child: ListTile(
 
                                 title: Text(
-                                  _controller.text.trim() + "(" + all[index]['Kistanigna'] +
+                                 language==null? _controller.text.trim() + "(" + all[index]['Kistanigna'] +
+                            ")": _controller.text.trim() + "(" + all[index][language] +
                                       ")", style: TextStyle(color: Colors.black),),
+                                onTap: () {
+                                  setState(() {
+                                    if (fevcolor == Colors.red)
+                                      fevcolor = Colors.black;
+                                    else
+                                      fevcolor = Colors.red;
+                                  });
+                                },
                               ),
                             ),
                             IconButton(
 
                               icon: Icon(
-                                fevcolor == Colors.red ? Icons.star : Icons
-                                    .star_border,
+                                fevcolor == Colors.red ? Icons.star : Icons.star_border,
                                 color: fevcolor,
                               ),
-                              onPressed: () {
-                                setState(() {
-                                  if (fevcolor == Colors.red)
-                                    fevcolor = Colors.black;
-                                  else
-                                    fevcolor = Colors.red;
-                                });
-                              },
+
                             )
                           ],
                         ),
@@ -159,12 +199,17 @@ class _ResultsPageState extends State<ResultsPage> {
                 },
               );
             default:
-              return Text("Failed",style: TextStyle(fontSize: 40),);
+              return Text("Loading...",style: TextStyle(fontSize: 40),);
           }
 
         }
         )
       ),
     );
+  }
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty<StreamController>('_streamController', _streamController));
   }
 }

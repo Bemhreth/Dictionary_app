@@ -37,7 +37,7 @@ class _InputPageState extends State<InputPage> {
           delegate: SliverChildListDelegate(
             [
               DefaultTabController(
-                length: 3,
+                length: 2,
                 child: Scaffold(
 
                   appBar: AppBar(
@@ -53,7 +53,7 @@ class _InputPageState extends State<InputPage> {
                       tabs: [
                         Tab(icon: Icon(Icons.home),text: 'Home', ),
                         Tab(icon: Icon(Icons.favorite), text: 'Favourites',),
-                        Tab(icon: Icon(Icons.recent_actors), text: 'Recent',),
+//                        Tab(icon: Icon(Icons.recent_actors), text: 'Recent',),
                       ],
                     ),
                     // title: Text('Tabs Demo'),
@@ -62,7 +62,7 @@ class _InputPageState extends State<InputPage> {
                     children: [
                       ResultsPage(),
                       Tab2(),
-                      Tab3()
+//                      Tab3()
                     ],
                   ),
                 ),
