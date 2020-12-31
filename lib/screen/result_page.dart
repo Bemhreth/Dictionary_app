@@ -1,10 +1,12 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:http/http.dart';
 import 'package:dictionary_app/utility/dbconnection.dart';
 
+import '../favorite_words_route.dart';
+
+
+List<String> savedWords = List<String>();
 class Item {
   const Item(this.name,this.icon);
 
@@ -72,7 +74,6 @@ class _ResultsPageState extends State<ResultsPage> {
 
   @override
   Widget build(BuildContext context) {
-    String language;
     return Scaffold(
       appBar: AppBar(
         bottom: PreferredSize(
@@ -165,6 +166,8 @@ class _ResultsPageState extends State<ResultsPage> {
                 itemCount: all.length,
 
                 itemBuilder: (BuildContext context, int index) {
+                  String word=all[index]['Kistanigna'];
+                  bool isSaved = savedWords.contains(word);
                   return ListBody(
                     children: <Widget>[
                       Container(
@@ -193,16 +196,17 @@ class _ResultsPageState extends State<ResultsPage> {
                             IconButton(
 
                               icon: Icon(
-                                fevcolor == Colors.red ? Icons.star : Icons.star_border,
-                                color: fevcolor,
+                                isSaved ? Icons.star : Icons.star_border,
+                                color: isSaved ? Colors.red : Colors.black,
                               ),
                          onPressed: (){
                            setState(() {
-
-                              if (fevcolor == Colors.red)
-                                   fevcolor = Colors.black;
-                              else
-                                   fevcolor = Colors.red;
+                             print(word);
+                             if (isSaved) {
+                               savedWords.remove(word);
+                             } else {
+                               savedWords.add(word);
+                             }
                                         });
                                       },
                             )
@@ -285,5 +289,14 @@ class _ResultsPageState extends State<ResultsPage> {
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties.add(DiagnosticsProperty<StreamController>('_streamController', _streamController));
+  }
+  Future pushToFavoriteWordsRoute(BuildContext context) {
+    return Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (BuildContext context) => FavoriteWordsRoute(
+          favoriteItems: savedWords,
+        ),
+      ),
+    );
   }
 }
