@@ -1,39 +1,274 @@
-import 'package:flappy_search_bar/flappy_search_bar.dart';
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:dictionary_app/utility/dbconnection.dart';
+import 'package:dictionary_app/utility/dictionarymodel.dart';
+import '../favorite_words_route.dart';
 
-class Post {
-  final String title;
-  final String description;
 
-  Post(this.title, this.description);
+List<String> savedWords = List<String>();
+class Item {
+  const Item(this.name,this.icon);
+
+  final String name;
+  final Icon icon;
 }
+class Tab2 extends StatefulWidget {
+  String definition;
+  String Mainlanguage;
+  String language1;
+  String language2;
+  Tab2(this.definition,this.language1,this.language2,this.Mainlanguage);
+  @override
 
-class Tab2 extends StatelessWidget {
-  Future<List<Post>> search(String search) async {
-    await Future.delayed(Duration(seconds: 2));
-    return List.generate(search.length, (int index) {
-      return Post(
-        "Title : $search $index",
-        "Description :$search $index",
-      );
-    });
+  _Tab2State createState() => _Tab2State();
+
+}
+class _Tab2State extends State<Tab2> {
+
+
+
+//  String _url = "https://owlbot.info/api/v4/dictionary/";
+//  String _token = "6bcd31a2dff4b7e3c3b0c10eda0408625e6f0950";
+  Item selectedUser;
+  List<Item> users = <Item>[
+    const Item('Kistanigna',Icon(Icons.language,color: Colors.greenAccent,)),
+    const Item('Amharic',Icon(Icons.language,color:  Colors.greenAccent,)),
+    const Item('English',Icon(Icons.language,color:  Colors.greenAccent,)),
+  ];
+  TextEditingController _controller = TextEditingController();
+
+
+  Timer _debounce;
+
+  StreamController _streamController;
+  Stream _stream;
+  Future _futurevalue;
+
+
+
+  @override
+  void initState() {
+    super.initState();
+    _futurevalue=getdictionary();
+
+  }
+  List<Map<String, dynamic>> all;
+
+  getdictionary() async{
+
+    all= await DBprovider.db.getfavorite();
+
+
   }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: SearchBar<Post>(
-            onSearch: search,
-            onItemFound: (Post post, int index) {
-              return ListTile(
-                title: Text(post.title),
-                subtitle: Text(post.description),
-              );
-            },
+      appBar: AppBar(
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(48.0),
+          child: Row(
+            children: <Widget>[
+
+              Expanded(
+                flex: 2,
+                child: Container(
+                  margin: const EdgeInsets.only(left: 12.0, bottom: 8.0),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(24.0),
+                  ),
+                  child: TextFormField(
+                    cursorColor: Colors.black26,
+                    style:TextStyle(color: Colors.black),
+                    onChanged: (String text) {
+                      if (_debounce?.isActive ?? false) _debounce.cancel();
+                      _debounce = Timer(const Duration(milliseconds: 1000), () {
+//                        _search();
+                      });
+                    },
+                    controller: _controller,
+                    decoration: InputDecoration(
+                      hintText: "Search for a word",
+                      hintStyle: TextStyle(color: Colors.black),
+                      contentPadding: const EdgeInsets.only(left: 24.0),
+                      border: InputBorder.none,
+                    ),
+                  ),
+                ),
+              ),
+              IconButton(
+                icon: Icon(
+                  Icons.search,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+//                  _search();
+                },
+              ),
+              Expanded(
+                flex: 1,
+                child:DropdownButton<Item>(
+                  hint:  Text("Select language",style: TextStyle(color: Colors.white),),
+                  value: selectedUser,
+                  onChanged: (Item Value) {
+                    setState(() {
+                      selectedUser = Value;
+                      widget.Mainlanguage=selectedUser.name;
+                      print(selectedUser.name);
+                    });
+                  },
+                  items: users.map((Item user) {
+                    return  DropdownMenuItem<Item>(
+                      value: user,
+                      child: Row(
+                        children: <Widget>[
+                          user.icon,
+                          SizedBox(width: 10,),
+                          Text(
+                            user.name,
+                            style:  TextStyle(color: Colors.white),
+                          ),
+                        ],
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ),
+            ],
           ),
+        ),
+      ),
+      body: Container(
+          margin: const EdgeInsets.all(8.0),
+          child: FutureBuilder(
+              future: _futurevalue,
+              builder: (context, snapshot) {
+
+                switch(snapshot.connectionState){
+                  case ConnectionState.none:
+                    return Text('Waiting...');
+                  case ConnectionState.active:
+                    return  Text('Waiting...');
+                  case ConnectionState.done:
+                    return ListView.builder(
+                      itemCount: all.length,
+
+                      itemBuilder: (BuildContext context, int index) {
+
+                        return all.length!=null? ListBody(
+                          children: <Widget>[
+                            Container(
+                              color: Colors.white,
+                              child: Row(
+                                children: <Widget>[
+                                  Expanded(
+                                    child: ListTile(
+
+                                      title: Text(
+                                        _controller.text.trim() + "(" + all[index][widget.Mainlanguage] +
+                                            ")", style: TextStyle(color: Colors.black),),
+                                      onTap: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) => _buildAboutDialog(context),
+                                        );
+                                        setState(() {
+                                          widget.language1=all[index]['Amharic'];
+                                          widget.language2=all[index]['English'];
+                                          widget.definition=all[index]['Definition'];
+                                        });
+                                      },
+                                    ),
+                                  ),
+
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(3.0),
+                            )
+                          ],
+                        ):Center(child: Text("No Favorite!"),);
+                      },
+                    );
+                  default:
+                    return Text("Loading...",style: TextStyle(fontSize: 40),);
+                }
+
+              }
+          )
+      ),
+    );
+  }
+  Widget _buildAboutDialog(BuildContext context) {
+    return new AlertDialog(
+      title: const Text('Definition'),
+      content: new Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          _buildAboutText(),
+          _buildLogoAttribution(),
+        ],
+      ),
+      actions: <Widget>[
+        new FlatButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          textColor: Theme.of(context).primaryColor,
+          child: const Text('go back'),
+        ),
+      ],
+    );
+  }
+  Widget _buildAboutText() {
+    return new RichText(
+      text: new TextSpan(
+        text: widget.language1+'\n\n',
+        style: const TextStyle(color: Colors.black87),
+        children: <TextSpan>[
+          TextSpan(text:widget.language2+'\n\n\n'),
+
+          TextSpan(
+            text:widget.definition,
+          ),
+
+          const TextSpan(text: '.'),
+        ],
+      ),
+    );
+  }
+  Widget _buildLogoAttribution() {
+    return new Padding(
+      padding: const EdgeInsets.only(top: 16.0),
+      child: new Row(
+        children: <Widget>[
+          new Padding(
+            padding: const EdgeInsets.only(top: 0.0),
+            child: new Image.asset(
+              "assets/flutter.png",
+              width: 32.0,
+            ),
+          ),
+
+        ],
+      ),
+    );
+  }
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty<StreamController>('_streamController', _streamController));
+  }
+  Future pushToFavoriteWordsRoute(BuildContext context) {
+    return Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (BuildContext context) => FavoriteWordsRoute(
+          favoriteItems: savedWords,
         ),
       ),
     );

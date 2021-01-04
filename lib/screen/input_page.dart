@@ -4,10 +4,8 @@ import '../favorite_words_route.dart';
 import 'Tab1.dart';
 import 'Tab2.dart';
 import 'Tab3.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-
 import 'result_page.dart';
 
 
@@ -62,7 +60,7 @@ class _InputPageState extends State<InputPage> {
                   body: TabBarView(
                     children: [
                       ResultsPage('ኣመረተ','English','Amharic','Kistanigna'),
-                      Tab2(),
+                      Tab2('ኣመረተ','English','Amharic','Kistanigna'),
                     ],
                   ),
                 ),

@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:dictionary_app/utility/dbconnection.dart';
-
+import 'package:dictionary_app/utility/dictionarymodel.dart';
 import '../favorite_words_route.dart';
 
 
@@ -42,7 +42,7 @@ class _ResultsPageState extends State<ResultsPage> {
   Stream _stream;
 
   Timer _debounce;
-  Color fevcolor=Colors.black;
+
   Future _futurevalue;
 
 //  _search() async {
@@ -60,8 +60,7 @@ class _ResultsPageState extends State<ResultsPage> {
   void initState() {
     super.initState();
     _futurevalue=getdictionary();
-    _streamController = StreamController();
-    _stream = _streamController.stream;
+
   }
   List<Map<String, dynamic>> all;
 
@@ -74,6 +73,7 @@ class _ResultsPageState extends State<ResultsPage> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         bottom: PreferredSize(
@@ -196,18 +196,30 @@ class _ResultsPageState extends State<ResultsPage> {
                             IconButton(
 
                               icon: Icon(
-                                isSaved ? Icons.star : Icons.star_border,
+                                isSaved? Icons.star : Icons.star_border,
                                 color: isSaved ? Colors.red : Colors.black,
                               ),
                          onPressed: (){
-                           setState(() {
+
                              print(word);
-                             if (isSaved) {
-                               savedWords.remove(word);
+
+                             if (all[index]['Favorite']!="0") {
+                               setState(() {
+                                 savedWords.remove(word);
+                                 DBprovider.db.updateall(all[index]['id'], Dictionary(Amharic: all[index]['Amharic'],Kistanigna: all[index]['Kistanigna'],English: all[index]['English'],Definition: all[index]['Definition'],Favorite: "0"));
+                                 DBprovider.db.deletefavorite(all[index]['Kistanigna']);
+                             });
                              } else {
-                               savedWords.add(word);
+                               setState(() {
+                                 savedWords.add(word);
+                                 var newinfo= Dictionary(Amharic: all[index]['Amharic'],Kistanigna: all[index]['Kistanigna'],English: all[index]['English'],Definition: all[index]['Definition'],Favorite: "1");
+                                 DBprovider.db.newdictionary(newinfo);
+                                 DBprovider.db.updateall(all[index]['id'], Dictionary(Amharic: all[index]['Amharic'],Kistanigna: all[index]['Kistanigna'],English: all[index]['English'],Definition: all[index]['Definition'],Favorite: "1"));
+                               });
+
                              }
-                                        });
+
+
                                       },
                             )
                           ],
