@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:dictionary_app/utility/dbconnection.dart';
+import 'package:sqflite/sqflite.dart';
 
 import '../favorite_words_route.dart';
 
@@ -45,11 +46,21 @@ class _ResultsPageState extends State<ResultsPage> {
   Color fevcolor=Colors.black;
   Future _futurevalue;
 
-//  _search() async {
-//    if (_controller.text == null || _controller.text.length == 0) {
-//      _streamController.add(null);
-//      return;
-//    }
+  void _search (text) async {
+    print('element');
+    Database db = await DBprovider.db.getdictionary();
+  List<Map> result = await db.rawQuery("SELECT content FROM table WHERE content LIKE '%$text%'");
+
+    setState(() {
+  result.forEach((element) {
+  print('element');
+  print(element['English']);
+//String  course = result;
+  });
+
+
+  });
+  }
 
 //    _streamController.add("waiting");
 //    Response response = await get(_url + _controller.text.trim(), headers: {"Authorization": "Token " + _token});
@@ -95,7 +106,7 @@ class _ResultsPageState extends State<ResultsPage> {
                     onChanged: (String text) {
                       if (_debounce?.isActive ?? false) _debounce.cancel();
                       _debounce = Timer(const Duration(milliseconds: 1000), () {
-//                        _search();
+                        _search(text);
                       });
                     },
                     controller: _controller,
@@ -171,46 +182,50 @@ class _ResultsPageState extends State<ResultsPage> {
                   return ListBody(
                     children: <Widget>[
                       Container(
-                        color: Colors.white,
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: ListTile(
+                        color: Color(0xFF111328),
+                        child: Card(
+                          elevation: 5,
+                          color: Colors.white,
+                          child: Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: ListTile(
 
-                                title: Text(
-                                 _controller.text.trim() + "(" + all[index][widget.Mainlanguage] +
-                                      ")", style: TextStyle(color: Colors.black),),
-                                onTap: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) => _buildAboutDialog(context),
-                                  );
-                                  setState(() {
-                                    widget.language1=all[index]['Amharic'];
-                                    widget.language2=all[index]['English'];
-                                    widget.definition=all[index]['Definition'];
-                                  });
-                                },
+                                  title: Text(
+                                    widget.Mainlanguage=='Kistanigna'?  all[index]['Kistanigna']: all[index][widget.Mainlanguage] + "(" + all[index]['Kistanigna'] +
+                                        ")", style: TextStyle(color: Colors.black),),
+                                  onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) => _buildAboutDialog(context),
+                                    );
+                                    setState(() {
+                                      widget.language1=all[index]['Amharic'];
+                                      widget.language2=all[index]['English'];
+                                      widget.definition=all[index]['Definition'];
+                                    });
+                                  },
+                                ),
                               ),
-                            ),
-                            IconButton(
+                              IconButton(
 
-                              icon: Icon(
-                                isSaved ? Icons.star : Icons.star_border,
-                                color: isSaved ? Colors.red : Colors.black,
-                              ),
-                         onPressed: (){
-                           setState(() {
-                             print(word);
-                             if (isSaved) {
-                               savedWords.remove(word);
-                             } else {
-                               savedWords.add(word);
-                             }
-                                        });
-                                      },
-                            )
-                          ],
+                                icon: Icon(
+                                  isSaved ? Icons.star : Icons.star_border,
+                                  color: isSaved ? Colors.red : Colors.black,
+                                ),
+                           onPressed: (){
+                             setState(() {
+                               print(word);
+                               if (isSaved) {
+                                 savedWords.remove(word);
+                               } else {
+                                 savedWords.add(word);
+                               }
+                                          });
+                                        },
+                              )
+                            ],
+                          ),
                         ),
                       ),
                       Padding(
@@ -246,7 +261,7 @@ class _ResultsPageState extends State<ResultsPage> {
             Navigator.of(context).pop();
           },
           textColor: Theme.of(context).primaryColor,
-          child: const Text('go back'),
+          child: Card(elevation: 5,color: Colors.white,child: Text(widget.Mainlanguage=='English'?'Ok':'እሺ',style: const TextStyle(color: Color(0xFF111328)))),
         ),
       ],
     );
@@ -255,12 +270,12 @@ class _ResultsPageState extends State<ResultsPage> {
     return new RichText(
       text: new TextSpan(
         text: widget.language1+'\n\n',
-        style: const TextStyle(color: Colors.black87),
+        style: const TextStyle(color: Colors.white),
         children: <TextSpan>[
-           TextSpan(text:widget.language2+'\n\n\n'),
+           TextSpan(text:widget.language2+'\n\n\n',style: TextStyle(color: Colors.white)),
 
           TextSpan(
-            text:widget.definition,
+            text:widget.definition,style: TextStyle(color: Colors.white)
           ),
 
           const TextSpan(text: '.'),
