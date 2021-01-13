@@ -69,75 +69,36 @@ class _Tab2State extends State<Tab2> {
       appBar: AppBar(
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(48.0),
-          child: Row(
-            children: <Widget>[
-
-              Expanded(
-                flex: 2,
-                child: Container(
-                  margin: const EdgeInsets.only(left: 12.0, bottom: 8.0),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(24.0),
-                  ),
-                  child: TextFormField(
-                    cursorColor: Colors.black26,
-                    style:TextStyle(color: Colors.black),
-                    onChanged: (String text) {
-                      if (_debounce?.isActive ?? false) _debounce.cancel();
-                      _debounce = Timer(const Duration(milliseconds: 1000), () {
-//                        _search();
-                      });
-                    },
-                    controller: _controller,
-                    decoration: InputDecoration(
-                      hintText: "Search for a word",
-                      hintStyle: TextStyle(color: Colors.black),
-                      contentPadding: const EdgeInsets.only(left: 24.0),
-                      border: InputBorder.none,
-                    ),
-                  ),
-                ),
-              ),
-              IconButton(
-                icon: Icon(
-                  Icons.search,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-//                  _search();
+          child: Card(
+            elevation: 5,
+            color: Colors.white,
+            child: Expanded(
+              child:DropdownButton<Item>(
+                value: selectedUser==null?selectedUser=users[0]:selectedUser,
+                onChanged: (Item Value) {
+                  setState(() {
+                    selectedUser = Value;
+                    widget.Mainlanguage=selectedUser.name;
+                    print(selectedUser.name);
+                  });
                 },
+                items: users.map((Item user) {
+                  return  DropdownMenuItem<Item>(
+                    value: user,
+                    child: Row(
+                      children: <Widget>[
+                        user.icon,
+                        SizedBox(width: 10,),
+                        Text(
+                          user.name,
+                          style:  TextStyle(color: Colors.black),
+                        ),
+                      ],
+                    ),
+                  );
+                }).toList(),
               ),
-              Expanded(
-                flex: 1,
-                child:DropdownButton<Item>(
-                  hint:  Text("Select language",style: TextStyle(color: Colors.white),),
-                  value: selectedUser,
-                  onChanged: (Item Value) {
-                    setState(() {
-                      selectedUser = Value;
-                      widget.Mainlanguage=selectedUser.name;
-                      print(selectedUser.name);
-                    });
-                  },
-                  items: users.map((Item user) {
-                    return  DropdownMenuItem<Item>(
-                      value: user,
-                      child: Row(
-                        children: <Widget>[
-                          user.icon,
-                          SizedBox(width: 10,),
-                          Text(
-                            user.name,
-                            style:  TextStyle(color: Colors.white),
-                          ),
-                        ],
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ),
-            ],
+            ),
           ),
         ),
       ),
@@ -168,7 +129,7 @@ class _Tab2State extends State<Tab2> {
                                     child: ListTile(
 
                                       title: Text(
-                                        _controller.text.trim() + "(" + all[index][widget.Mainlanguage] +
+                                        widget.Mainlanguage=='Kistanigna'?  all[index]['Kistanigna']: all[index][widget.Mainlanguage] + "(" + all[index]['Kistanigna'] +
                                             ")", style: TextStyle(color: Colors.black),),
                                       onTap: () {
                                         showDialog(
