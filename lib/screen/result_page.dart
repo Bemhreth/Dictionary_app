@@ -242,7 +242,7 @@ class _ResultsPageState extends State<ResultsPage> {
                       ),
 //                      Padding(
 //                        padding: const EdgeInsets.all(3.0),
-                      )
+//                      )
                   )
                     ],
                   );
