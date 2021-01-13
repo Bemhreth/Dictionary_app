@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:dictionary_app/utility/dbconnection.dart';
+import 'package:dictionary_app/utility/dictionarymodel.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../favorite_words_route.dart';
@@ -209,23 +210,34 @@ class _ResultsPageState extends State<ResultsPage> {
                               ),
                               IconButton(
 
-                                icon: Icon(
-                                  isSaved ? Icons.star : Icons.star_border,
-                                  color: isSaved ? Colors.red : Colors.black,
-                                ),
-                           onPressed: (){
-                             setState(() {
-                               print(word);
-                               if (isSaved) {
+                              icon: Icon(
+                                isSaved? Icons.star : Icons.star_border,
+                                color: isSaved ? Colors.red : Colors.black,
+                              ),
+                         onPressed: (){
+
+                             print(word);
+
+                             if (all[index]['Favorite']!="0") {
+                               setState(() {
                                  savedWords.remove(word);
-                               } else {
+                                 DBprovider.db.updateall(all[index]['id'], Dictionary(Amharic: all[index]['Amharic'],Kistanigna: all[index]['Kistanigna'],English: all[index]['English'],Definition: all[index]['Definition'],Favorite: "0"));
+                                 DBprovider.db.deletefavorite(all[index]['Kistanigna']);
+                             });
+                             } else {
+                               setState(() {
                                  savedWords.add(word);
-                               }
-                                          });
-                                        },
-                              )
-                            ],
-                          ),
+                                 var newinfo= Dictionary(Amharic: all[index]['Amharic'],Kistanigna: all[index]['Kistanigna'],English: all[index]['English'],Definition: all[index]['Definition'],Favorite: "1");
+                                 DBprovider.db.newdictionary(newinfo);
+                                 DBprovider.db.updateall(all[index]['id'], Dictionary(Amharic: all[index]['Amharic'],Kistanigna: all[index]['Kistanigna'],English: all[index]['English'],Definition: all[index]['Definition'],Favorite: "1"));
+                               });
+
+                             }
+
+
+                                      },
+                            )
+                          ],
                         ),
                       ),
                       Padding(
