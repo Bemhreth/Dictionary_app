@@ -49,8 +49,8 @@ class _ResultsPageState extends State<ResultsPage> {
 
   void _search (text) async {
     print('element');
-    Database db = await DBprovider.db.getdictionary();
-  List<Map> result = await db.rawQuery("SELECT content FROM table WHERE content LIKE '%$text%'");
+    Database db1 = await DBprovider.db.getdictionary();
+  List<Map> result = await db1.rawQuery("SELECT content FROM table WHERE content LIKE '%$text%'");
 
     setState(() {
   result.forEach((element) {
