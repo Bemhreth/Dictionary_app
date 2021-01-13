@@ -129,33 +129,36 @@ class _ResultsPageState extends State<ResultsPage> {
 //                  _search();
                 },
               ),
-              Expanded(
-                flex: 1,
-                child:DropdownButton<Item>(
-                  hint:  Text("Select language",style: TextStyle(color: Colors.white),),
-                  value: selectedUser,
-                  onChanged: (Item Value) {
-                    setState(() {
-                      selectedUser = Value;
-                      widget.Mainlanguage=selectedUser.name;
-                      print(selectedUser.name);
-                    });
-                  },
-                  items: users.map((Item user) {
-                    return  DropdownMenuItem<Item>(
-                      value: user,
-                      child: Row(
-                        children: <Widget>[
-                          user.icon,
-                          SizedBox(width: 10,),
-                          Text(
-                            user.name,
-                            style:  TextStyle(color: Colors.white),
-                          ),
-                        ],
-                      ),
-                    );
-                  }).toList(),
+              Card(
+                elevation: 5,
+                color: Colors.white,
+                child: Expanded(
+                  flex: 1,
+                  child:DropdownButton<Item>(
+                    value: selectedUser==null?selectedUser=users[0]:selectedUser,
+                    onChanged: (Item Value) {
+                      setState(() {
+                        selectedUser = Value;
+                        widget.Mainlanguage=selectedUser.name;
+                        print(selectedUser.name);
+                      });
+                    },
+                    items: users.map((Item user) {
+                      return  DropdownMenuItem<Item>(
+                        value: user,
+                        child: Row(
+                          children: <Widget>[
+                            user.icon,
+                            SizedBox(width: 10,),
+                            Text(
+                              user.name,
+                              style:  TextStyle(color: Colors.black),
+                            ),
+                          ],
+                        ),
+                      );
+                    }).toList(),
+                  ),
                 ),
               ),
             ],
@@ -238,6 +241,7 @@ class _ResultsPageState extends State<ResultsPage> {
                                       },
                             )
                           ],
+                          )
                         ),
                       ),
                       Padding(
