@@ -24,7 +24,20 @@ class _InputPageState extends State<InputPage> {
     return CustomScrollView(
       slivers: <Widget>[
         SliverAppBar(
-          title: Text('Dictionary'),
+          centerTitle: true,
+//          pinned: true,
+
+          title: FlatButton(
+
+        onPressed: () => {
+        Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Tab3()),
+        )},
+    child: Column( // Replace with a Row for horizontal icon + text
+    children: <Widget>[
+    Icon(Icons.info)
+    ],)),
           backgroundColor: Colors.green,
           expandedHeight: 200.0,
           flexibleSpace: FlexibleSpaceBar(
