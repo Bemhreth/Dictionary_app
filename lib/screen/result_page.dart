@@ -78,14 +78,13 @@ class _ResultsPageState extends State<ResultsPage> {
   List<Map<String, dynamic>> all;
 
   getdictionary() async{
-
       all= await DBprovider.db.getdictionary();
       print(all);
-
   }
 
   @override
   Widget build(BuildContext context) {
+    _futurevalue=getdictionary();
     return Scaffold(
       appBar: AppBar(
         bottom: PreferredSize(
@@ -170,12 +169,12 @@ class _ResultsPageState extends State<ResultsPage> {
         child: FutureBuilder(
         future: _futurevalue,
         builder: (context, snapshot) {
-
+            
           switch(snapshot.connectionState){
             case ConnectionState.none:
-              return Text('Waiting...');
+              return Center(child: Text('Waiting...'));
             case ConnectionState.active:
-              return  Text('Waiting...');
+              return  Center(child: Text('Waiting...'));
             case ConnectionState.done:
               return ListView.builder(
                 itemCount: all.length,
@@ -214,8 +213,8 @@ class _ResultsPageState extends State<ResultsPage> {
                               IconButton(
 
                               icon: Icon(
-                                isSaved? Icons.star : Icons.star_border,
-                                color: isSaved ? Colors.red : Colors.black,
+                                all[index]['Favorite']!="0"? Icons.star : Icons.star_border,
+                                color: all[index]['Favorite']!="0" ? Colors.red : Colors.black,
                               ),
                          onPressed: (){
 
@@ -223,15 +222,15 @@ class _ResultsPageState extends State<ResultsPage> {
 
                              if (all[index]['Favorite']!="0") {
                                setState(() {
-                                 savedWords.remove(word);
+                                 //savedWords.remove(word);
                                  DBprovider.db.updateall(all[index]['id'], Dictionary(Amharic: all[index]['Amharic'],Kistanigna: all[index]['Kistanigna'],English: all[index]['English'],Definition: all[index]['Definition'],Favorite: "0"));
                                  DBprovider.db.deletefavorite(all[index]['Kistanigna']);
                              });
                              } else {
                                setState(() {
-                                 savedWords.add(word);
+                                // savedWords.add(word);
                                  var newinfo= Dictionary(Amharic: all[index]['Amharic'],Kistanigna: all[index]['Kistanigna'],English: all[index]['English'],Definition: all[index]['Definition'],Favorite: "1");
-                                 DBprovider.db.newdictionary(newinfo);
+                                 DBprovider.db.newsfavorite(newinfo);
                                  DBprovider.db.updateall(all[index]['id'], Dictionary(Amharic: all[index]['Amharic'],Kistanigna: all[index]['Kistanigna'],English: all[index]['English'],Definition: all[index]['Definition'],Favorite: "1"));
                                });
 
@@ -252,7 +251,7 @@ class _ResultsPageState extends State<ResultsPage> {
                 },
               );
             default:
-              return Text("Loading...",style: TextStyle(fontSize: 40),);
+              return Center(child: Text("Loading...",style: TextStyle(fontSize: 40),));
           }
 
         }

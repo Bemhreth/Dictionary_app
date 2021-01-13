@@ -40,7 +40,7 @@ class _Tab2State extends State<Tab2> {
 
 
   Timer _debounce;
-
+  var itemCount=1;
   StreamController _streamController;
   Stream _stream;
   Future _futurevalue;
@@ -58,7 +58,11 @@ class _Tab2State extends State<Tab2> {
   getdictionary() async{
 
     all= await DBprovider.db.getfavorite();
-
+    print("favorit database $all");
+    if(all!=null){
+      print("favorit database $all");
+      itemCount=all.length;
+    }
 
   }
 
@@ -115,11 +119,11 @@ class _Tab2State extends State<Tab2> {
                     return  Text('Waiting...');
                   case ConnectionState.done:
                     return ListView.builder(
-                      itemCount: all.length,
+                      itemCount: itemCount,
 
                       itemBuilder: (BuildContext context, int index) {
 
-                        return all.length!=null? ListBody(
+                        return all!=null? ListBody(
                           children: <Widget>[
                             Container(
                               color: Colors.white,
@@ -144,7 +148,6 @@ class _Tab2State extends State<Tab2> {
                                       },
                                     ),
                                   ),
-
                                 ],
                               ),
                             ),
@@ -152,7 +155,7 @@ class _Tab2State extends State<Tab2> {
                               padding: const EdgeInsets.all(3.0),
                             )
                           ],
-                        ):Center(child: Text("No Favorite!"),);
+                        ):Center(child: Text("No Favorite!",style: TextStyle(fontSize: 40),),);
                       },
                     );
                   default:
