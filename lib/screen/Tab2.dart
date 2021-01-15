@@ -2,14 +2,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:dictionary_app/utility/dbconnection.dart';
-import 'package:dictionary_app/utility/dictionarymodel.dart';
 import '../favorite_words_route.dart';
 
 
 List<String> savedWords = List<String>();
 class Item {
   const Item(this.name,this.icon);
-
   final String name;
   final Icon icon;
 }
@@ -72,36 +70,34 @@ class _Tab2State extends State<Tab2> {
     return Scaffold(
       appBar: AppBar(
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(48.0),
+          preferredSize: Size.fromHeight(38.0),
           child: Card(
             elevation: 5,
             color: Colors.white,
-            child: Expanded(
-              child:DropdownButton<Item>(
-                value: selectedUser==null?selectedUser=users[0]:selectedUser,
-                onChanged: (Item Value) {
-                  setState(() {
-                    selectedUser = Value;
-                    widget.Mainlanguage=selectedUser.name;
-                    print(selectedUser.name);
-                  });
-                },
-                items: users.map((Item user) {
-                  return  DropdownMenuItem<Item>(
-                    value: user,
-                    child: Row(
-                      children: <Widget>[
-                        user.icon,
-                        SizedBox(width: 10,),
-                        Text(
-                          user.name,
-                          style:  TextStyle(color: Colors.black),
-                        ),
-                      ],
-                    ),
-                  );
-                }).toList(),
-              ),
+            child: DropdownButton<Item>(
+              value: selectedUser==null?selectedUser=users[0]:selectedUser,
+              onChanged: (Item Value) {
+                setState(() {
+                  selectedUser = Value;
+                  widget.Mainlanguage=selectedUser.name;
+                  print(selectedUser.name);
+                });
+              },
+              items: users.map((Item user) {
+                return  DropdownMenuItem<Item>(
+                  value: user,
+                  child: Row(
+                    children: <Widget>[
+                      user.icon,
+                      SizedBox(width: 10,),
+                      Text(
+                        user.name,
+                        style:  TextStyle(color: Colors.black),
+                      ),
+                    ],
+                  ),
+                );
+              }).toList(),
             ),
           ),
         ),
@@ -125,7 +121,8 @@ class _Tab2State extends State<Tab2> {
 
                         return all!=null? ListBody(
                           children: <Widget>[
-                            Container(
+                            Card(
+                              elevation: 5,
                               color: Colors.white,
                               child: Row(
                                 children: <Widget>[
@@ -184,7 +181,7 @@ class _Tab2State extends State<Tab2> {
             Navigator.of(context).pop();
           },
           textColor: Theme.of(context).primaryColor,
-          child: const Text('go back'),
+          child: Card(elevation: 5,color: Colors.white,child: Text(widget.Mainlanguage=='English'?'Ok':'እሺ',style: const TextStyle(color: Color(0xFF111328)))),
         ),
       ],
     );
@@ -193,7 +190,7 @@ class _Tab2State extends State<Tab2> {
     return new RichText(
       text: new TextSpan(
         text: widget.language1+'\n\n',
-        style: const TextStyle(color: Colors.black87),
+        style: const TextStyle(color: Colors.white),
         children: <TextSpan>[
           TextSpan(text:widget.language2+'\n\n\n'),
 

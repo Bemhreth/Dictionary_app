@@ -131,33 +131,30 @@ class _ResultsPageState extends State<ResultsPage> {
               Card(
                 elevation: 5,
                 color: Colors.white,
-                child: Expanded(
-                  flex: 1,
-                  child:DropdownButton<Item>(
-                    value: selectedUser==null?selectedUser=users[0]:selectedUser,
-                    onChanged: (Item Value) {
-                      setState(() {
-                        selectedUser = Value;
-                        widget.Mainlanguage=selectedUser.name;
-                        print(selectedUser.name);
-                      });
-                    },
-                    items: users.map((Item user) {
-                      return  DropdownMenuItem<Item>(
-                        value: user,
-                        child: Row(
-                          children: <Widget>[
-                            user.icon,
-                            SizedBox(width: 10,),
-                            Text(
-                              user.name,
-                              style:  TextStyle(color: Colors.black),
-                            ),
-                          ],
-                        ),
-                      );
-                    }).toList(),
-                  ),
+                child: DropdownButton<Item>(
+                  value: selectedUser==null?selectedUser=users[0]:selectedUser,
+                  onChanged: (Item Value) {
+                    setState(() {
+                      selectedUser = Value;
+                      widget.Mainlanguage=selectedUser.name;
+                      print(selectedUser.name);
+                    });
+                  },
+                  items: users.map((Item user) {
+                    return  DropdownMenuItem<Item>(
+                      value: user,
+                      child: Row(
+                        children: <Widget>[
+                          user.icon,
+                          SizedBox(width: 10,),
+                          Text(
+                            user.name,
+                            style:  TextStyle(color: Colors.black),
+                          ),
+                        ],
+                      ),
+                    );
+                  }).toList(),
                 ),
               ),
             ],
@@ -169,7 +166,7 @@ class _ResultsPageState extends State<ResultsPage> {
         child: FutureBuilder(
         future: _futurevalue,
         builder: (context, snapshot) {
-            
+
           switch(snapshot.connectionState){
             case ConnectionState.none:
               return Center(child: Text('Waiting...'));
