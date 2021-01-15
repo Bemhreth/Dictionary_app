@@ -74,17 +74,22 @@ class _ResultsPageState extends State<ResultsPage> {
     _futurevalue=getdictionary();
     _streamController = StreamController();
     _stream = _streamController.stream;
+    _futurevalue=getdictionary();
   }
   List<Map<String, dynamic>> all;
+  List<Map<String, dynamic>> alls;
 
   getdictionary() async{
-      all= await DBprovider.db.getdictionary();
+    alls= await DBprovider.db.getdictionary();
+    setState(() {
+      all=alls;
       print(all);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    _futurevalue=getdictionary();
+    getdictionary();
     return Scaffold(
       appBar: AppBar(
         bottom: PreferredSize(
