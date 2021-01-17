@@ -28,10 +28,6 @@ class ResultsPage extends StatefulWidget {
 }
 class _ResultsPageState extends State<ResultsPage> {
 
-
-
-//  String _url = "https://owlbot.info/api/v4/dictionary/";
-//  String _token = "6bcd31a2dff4b7e3c3b0c10eda0408625e6f0950";
   Item selectedUser;
   List<Item> users = <Item>[
     const Item('Kistanigna',Icon(Icons.language,color: Colors.greenAccent,)),
@@ -42,25 +38,34 @@ class _ResultsPageState extends State<ResultsPage> {
 
   StreamController _streamController;
   Stream _stream;
-
+  List<Map> all=List<Map>();
+  List<Map> alls=List<Map>();
+  List<Map<String, dynamic>> all1=List<Map<String, dynamic>>();
   Timer _debounce;
   Color fevcolor=Colors.black;
   Future _futurevalue;
 
-  void _search (text) async {
-    print('element');
-    Database db1 = await DBprovider.db.getdictionary();
-  List<Map> result = await db1.rawQuery("SELECT content FROM table WHERE content LIKE '%$text%'");
+  void _search (text)  {
+        if(text.isNotEmpty) {
+      List<Map<String, dynamic>> dummyListData = List<Map<String, dynamic>>();
+    final item= alls.where((e) => e['Kistanigna'] == text || e['Amharic'] == text
+          || e['English']==text);
+    item.forEach((item) {
+      print(item['Kistanigna']);
+      dummyListData.add(item);
+    });
+      setState(()  {
 
-    setState(() {
-  result.forEach((element) {
-  print('element');
-  print(element['English']);
-//String  course = result;
-  });
-
-
-  });
+        all.clear();
+        all.addAll(dummyListData);
+      });
+      return;
+    } else {
+      setState(()  {
+        all.clear();
+        getdictionary();
+      });
+    }
   }
 
 //    _streamController.add("waiting");
@@ -69,27 +74,27 @@ class _ResultsPageState extends State<ResultsPage> {
 //  }
 
   @override
-  void initState() {
+  Future<void> initState()  {
     super.initState();
-    _futurevalue=getdictionary();
     _streamController = StreamController();
     _stream = _streamController.stream;
     _futurevalue=getdictionary();
   }
-  List<Map<String, dynamic>> all;
-  List<Map<String, dynamic>> alls;
+
 
   getdictionary() async{
-    alls= await DBprovider.db.getdictionary();
+    alls= List.of(await DBprovider.db.getdictionary());
+    all= List.of(await DBprovider.db.getdictionary());
     setState(() {
       all=alls;
-      print(all);
+//      print(all);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    getdictionary();
+//    getdictionary();
+    String text1;
     return Scaffold(
       appBar: AppBar(
         bottom: PreferredSize(
@@ -109,6 +114,7 @@ class _ResultsPageState extends State<ResultsPage> {
                     cursorColor: Colors.black26,
                     style:TextStyle(color: Colors.black),
                     onChanged: (String text) {
+                      text1=text;
                       if (_debounce?.isActive ?? false) _debounce.cancel();
                       _debounce = Timer(const Duration(milliseconds: 1000), () {
                         _search(text);
@@ -130,7 +136,7 @@ class _ResultsPageState extends State<ResultsPage> {
                   color: Colors.white,
                 ),
                 onPressed: () {
-//                  _search();
+                  _search(text1);
                 },
               ),
               Card(
@@ -186,64 +192,63 @@ class _ResultsPageState extends State<ResultsPage> {
                   bool isSaved = savedWords.contains(word);
                   return ListBody(
                     children: <Widget>[
-                      Container(
-                        color: Color(0xFF111328),
-                        child: Card(
-                          elevation: 5,
-                          color: Colors.white,
-                          child: Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: ListTile(
+                      Card(
+                        elevation: 5,
+                        color: Colors.white,
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: ListTile(
 
-                                  title: Text(
-                                    widget.Mainlanguage=='Kistanigna'?  all[index]['Kistanigna']: all[index][widget.Mainlanguage] + "(" + all[index]['Kistanigna'] +
-                                        ")", style: TextStyle(color: Colors.black),),
-                                  onTap: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) => _buildAboutDialog(context),
-                                    );
-                                    setState(() {
-                                      widget.language1=all[index]['Amharic'];
-                                      widget.language2=all[index]['English'];
-                                      widget.definition=all[index]['Definition'];
-                                    });
-                                  },
-                                ),
+                                title: Text(
+                                  widget.Mainlanguage=='Kistanigna'?  all[index]['Kistanigna']: all[index][widget.Mainlanguage] + "(" + all[index]['Kistanigna'] +
+                                      ")", style: TextStyle(color: Colors.black),),
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) => _buildAboutDialog(context),
+                                  );
+                                  setState(() {
+                                    widget.language1=all[index]['Amharic'];
+                                    widget.language2=all[index]['English'];
+                                    widget.definition=all[index]['Definition'];
+                                  });
+                                },
                               ),
-                              IconButton(
+                            ),
+                            IconButton(
 
-                              icon: Icon(
-                                all[index]['Favorite']!="0"? Icons.star : Icons.star_border,
-                                color: all[index]['Favorite']!="0" ? Colors.red : Colors.black,
-                              ),
-                         onPressed: (){
+                            icon: Icon(
+                              all[index]['Favorite']!="0"? Icons.star : Icons.star_border,
+                              color: all[index]['Favorite']!="0" ? Colors.red : Colors.black,
+                            ),
+                       onPressed: (){
 
-                             print(word);
+//                           print(word);
 
-                             if (all[index]['Favorite']!="0") {
-                               setState(() {
-                                 //savedWords.remove(word);
-                                 DBprovider.db.updateall(all[index]['id'], Dictionary(Amharic: all[index]['Amharic'],Kistanigna: all[index]['Kistanigna'],English: all[index]['English'],Definition: all[index]['Definition'],Favorite: "0"));
-                                 DBprovider.db.deletefavorite(all[index]['Kistanigna']);
+                           if (all[index]['Favorite']!="0") {
+                             setState(() {
+                               //savedWords.remove(word);
+                               DBprovider.db.updateall(all[index]['id'], Dictionary(Amharic: all[index]['Amharic'],Kistanigna: all[index]['Kistanigna'],English: all[index]['English'],Definition: all[index]['Definition'],Favorite: "0"));
+                               DBprovider.db.deletefavorite(all[index]['Kistanigna']);
+                               getdictionary();
+                           });
+                           } else {
+                             setState(() {
+                              // savedWords.add(word);
+                               var newinfo= Dictionary(Amharic: all[index]['Amharic'],Kistanigna: all[index]['Kistanigna'],English: all[index]['English'],Definition: all[index]['Definition'],Favorite: "1");
+                               DBprovider.db.newsfavorite(newinfo);
+                               DBprovider.db.updateall(all[index]['id'], Dictionary(Amharic: all[index]['Amharic'],Kistanigna: all[index]['Kistanigna'],English: all[index]['English'],Definition: all[index]['Definition'],Favorite: "1"));
+                               getdictionary();
                              });
-                             } else {
-                               setState(() {
-                                // savedWords.add(word);
-                                 var newinfo= Dictionary(Amharic: all[index]['Amharic'],Kistanigna: all[index]['Kistanigna'],English: all[index]['English'],Definition: all[index]['Definition'],Favorite: "1");
-                                 DBprovider.db.newsfavorite(newinfo);
-                                 DBprovider.db.updateall(all[index]['id'], Dictionary(Amharic: all[index]['Amharic'],Kistanigna: all[index]['Kistanigna'],English: all[index]['English'],Definition: all[index]['Definition'],Favorite: "1"));
-                               });
 
-                             }
+                           }
 
 
-                                      },
-                            )
-                          ],
+                                    },
                           )
-                        ),
+                        ],
+                        )
                       ),
                       Padding(
                         padding: const EdgeInsets.all(3.0),
@@ -321,14 +326,5 @@ class _ResultsPageState extends State<ResultsPage> {
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties.add(DiagnosticsProperty<StreamController>('_streamController', _streamController));
-  }
-  Future pushToFavoriteWordsRoute(BuildContext context) {
-    return Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (BuildContext context) => FavoriteWordsRoute(
-          favoriteItems: savedWords,
-        ),
-      ),
-    );
   }
 }

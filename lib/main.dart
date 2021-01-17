@@ -46,8 +46,8 @@ class MyApp extends StatelessWidget {
     csvtolist();
     return MaterialApp(
       theme: ThemeData.dark().copyWith(
-      primaryColor: Color(0xFF0A0E21),
-      scaffoldBackgroundColor: Color(0xFF0A0E21),
+      primaryColor: Color(0xFFBFEFFF),
+      scaffoldBackgroundColor: Color(0xFFBFEFFF),
       ),
       home: new SplashScreen(
           seconds: 3,
