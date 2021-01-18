@@ -18,8 +18,8 @@ class MyApp extends StatelessWidget {
   csvtolist() async{
 
     final myData = await rootBundle.loadString("asset/dictionary.csv");
-
-     def = CsvToListConverter(eol: "\n",fieldDelimiter: ",").convert(myData);
+def=CsvToListConverter(eol: "\n",fieldDelimiter: ",").convert(myData);
+//     def = CsvToListConverter(eol: "\n",fieldDelimiter: ",").convert(myData);
 
 
     //   File  dictionary=new File( await rootBundle.loadString('asset/dictionary.csv'));

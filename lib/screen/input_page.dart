@@ -1,7 +1,3 @@
-import 'dart:convert';
-
-import '../favorite_words_route.dart';
-import 'Tab1.dart';
 import 'Tab2.dart';
 import 'Tab3.dart';
 import 'package:flutter/material.dart';

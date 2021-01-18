@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:dictionary_app/utility/dbconnection.dart';
-import '../favorite_words_route.dart';
 
 
 List<String> savedWords = List<String>();
@@ -224,14 +223,5 @@ class _Tab2State extends State<Tab2> {
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties.add(DiagnosticsProperty<StreamController>('_streamController', _streamController));
-  }
-  Future pushToFavoriteWordsRoute(BuildContext context) {
-    return Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (BuildContext context) => FavoriteWordsRoute(
-          favoriteItems: savedWords,
-        ),
-      ),
-    );
   }
 }
