@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:dictionary_app/utility/dbconnection.dart';
 import 'package:dictionary_app/utility/dictionarymodel.dart';
-import 'package:sqflite/sqflite.dart';
-
-import '../favorite_words_route.dart';
 
 
 List<String> savedWords = List<String>();
@@ -48,8 +45,8 @@ class _ResultsPageState extends State<ResultsPage> {
   void _search (text)  {
         if(text.isNotEmpty) {
       List<Map<String, dynamic>> dummyListData = List<Map<String, dynamic>>();
-    final item= alls.where((e) => e['Kistanigna'] == text || e['Amharic'] == text
-          || e['English']==text);
+    final item= all.where((e) => e['English']==text || e['Kistanigna'] == text || e['Amharic'] == text
+           );
     item.forEach((item) {
       print(item['Kistanigna']);
       dummyListData.add(item);
@@ -67,12 +64,6 @@ class _ResultsPageState extends State<ResultsPage> {
       });
     }
   }
-
-//    _streamController.add("waiting");
-//    Response response = await get(_url + _controller.text.trim(), headers: {"Authorization": "Token " + _token});
-//    _streamController.add(json.decode(response.body));
-//  }
-
   @override
   Future<void> initState()  {
     super.initState();
@@ -93,7 +84,6 @@ class _ResultsPageState extends State<ResultsPage> {
 
   @override
   Widget build(BuildContext context) {
-//    getdictionary();
     String text1;
     return Scaffold(
       appBar: AppBar(
@@ -108,7 +98,7 @@ class _ResultsPageState extends State<ResultsPage> {
                   margin: const EdgeInsets.only(left: 12.0, bottom: 8.0),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(24.0),
+//                    borderRadius: BorderRadius.circular(24.0),
                   ),
                   child: TextFormField(
                     cursorColor: Colors.black26,
@@ -120,7 +110,7 @@ class _ResultsPageState extends State<ResultsPage> {
                         _search(text);
                       });
                     },
-                    controller: _controller,
+//                    controller: _controller,
                     decoration: InputDecoration(
                       hintText: "Search for a word",
                       hintStyle: TextStyle(color: Colors.black),

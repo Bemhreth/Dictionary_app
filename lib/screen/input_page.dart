@@ -24,20 +24,21 @@ class _InputPageState extends State<InputPage> {
     return CustomScrollView(
       slivers: <Widget>[
         SliverAppBar(
-          centerTitle: true,
-//          pinned: true,
+//          centerTitle: true,
+          pinned: true,
 
-          title: FlatButton(
-
-        onPressed: () => {
-        Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => Tab3()),
-        )},
-    child: Column( // Replace with a Row for horizontal icon + text
-    children: <Widget>[
-    Icon(Icons.info)
-    ],)),
+          title:Text('Kistanigna Dictionary'),
+//          FlatButton(
+//
+//        onPressed: () => {
+//        Navigator.push(
+//        context,
+//        MaterialPageRoute(builder: (context) => Tab3()),
+//        )},
+//    child: Column( // Replace with a Row for horizontal icon + text
+//    children: <Widget>[
+//    Icon(Icons.info)
+//    ],)),
           backgroundColor: Colors.green,
           expandedHeight: 200.0,
           flexibleSpace: FlexibleSpaceBar(
@@ -49,7 +50,7 @@ class _InputPageState extends State<InputPage> {
           delegate: SliverChildListDelegate(
             [
               DefaultTabController(
-                length: 2,
+                length: 3,
                 child: Scaffold(
 
                   appBar: AppBar(
@@ -65,7 +66,7 @@ class _InputPageState extends State<InputPage> {
                       tabs: [
                         Tab(icon: Icon(Icons.home),text: 'Home', ),
                         Tab(icon: Icon(Icons.favorite), text: 'Favourites',),
-//                        Tab(icon: Icon(Icons.recent_actors), text: 'Recent',),
+                        Tab(icon: Icon(Icons.info), text: 'About',),
                       ],
                     ),
                     // title: Text('Tabs Demo'),
@@ -74,6 +75,7 @@ class _InputPageState extends State<InputPage> {
                     children: [
                       ResultsPage('ኣመረተ','English','Amharic','Kistanigna'),
                       Tab2('ኣመረተ','English','Amharic','Kistanigna'),
+                      Tab3(),
                     ],
                   ),
                 ),
