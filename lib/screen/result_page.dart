@@ -45,17 +45,32 @@ class _ResultsPageState extends State<ResultsPage> {
 
   void _search (text)  {
         if(text.isNotEmpty) {
-      List<Map<String, dynamic>> dummyListData = List<Map<String, dynamic>>();
-    var item= all.where((e) => e['English']==text
-           );
-    item.forEach((item) {
-      print(item['Kistanigna']);
-      dummyListData.add(item);
-    });
+          print(text);
+      List<Map> DListData = List<Map>();
+      alls.forEach((element) {
+        switch (widget.Mainlanguage) {
+          case 'English':
+            element['English'].toString().toLowerCase();
+            if( element['English'].contains(text.toLowerCase())){
+              DListData.add(element);
+            }
+            break;
+          case 'Amharic':
+            if( element['Amharic'].contains(text.toLowerCase())){
+              DListData.add(element);
+            }
+            break;
+          case 'Kistanigna':
+            if( element['Kistanigna'].contains(text.toLowerCase())){
+              DListData.add(element);
+            }
+            break;
+        }
+      });
       setState(()  {
-
         all.clear();
-        all.addAll(dummyListData);
+        all.addAll(DListData);
+        DListData.clear();
       });
       return;
     } else {
@@ -109,17 +124,16 @@ class _ResultsPageState extends State<ResultsPage> {
                         widget.T=text;
                       });
                     },
+//                    onEditingComplete: _search(widget.T); ,
                     onChanged: (String text) {
-                      setState(() {
-                        widget.T=text;
-                      });
-//                      if (_debounce?.isActive ?? false) _debounce.cancel();
-//                      _debounce = Timer(const Duration(milliseconds: 1000), () {
-//                        setState(() {
-//                          text1=text;
-//                          _search(text);
-//                        });
-//                      });
+                        if (_debounce?.isActive ?? false) _debounce.cancel();
+                        _debounce = Timer(const Duration(milliseconds: 1000), () {
+                          setState(() {
+//                            if(text==null)
+                              _search(text);
+                            widget.T=text;
+                          });
+                        });
                     },
 //                    controller: _controller,
                     decoration: InputDecoration(
