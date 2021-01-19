@@ -17,7 +17,8 @@ class ResultsPage extends StatefulWidget {
    String Mainlanguage;
    String language1;
    String language2;
-  ResultsPage(this.definition,this.language1,this.language2,this.Mainlanguage);
+   String T;
+  ResultsPage(this.definition,this.language1,this.language2,this.Mainlanguage,this.T);
   @override
 
   _ResultsPageState createState() => _ResultsPageState();
@@ -45,7 +46,7 @@ class _ResultsPageState extends State<ResultsPage> {
   void _search (text)  {
         if(text.isNotEmpty) {
       List<Map<String, dynamic>> dummyListData = List<Map<String, dynamic>>();
-    final item= all.where((e) => e['English']==text || e['Kistanigna'] == text || e['Amharic'] == text
+    var item= all.where((e) => e['English']==text
            );
     item.forEach((item) {
       print(item['Kistanigna']);
@@ -84,7 +85,6 @@ class _ResultsPageState extends State<ResultsPage> {
 
   @override
   Widget build(BuildContext context) {
-    String text1;
     return Scaffold(
       appBar: AppBar(
         bottom: PreferredSize(
@@ -103,12 +103,23 @@ class _ResultsPageState extends State<ResultsPage> {
                   child: TextFormField(
                     cursorColor: Colors.black26,
                     style:TextStyle(color: Colors.black),
-                    onChanged: (String text) {
-                      text1=text;
-                      if (_debounce?.isActive ?? false) _debounce.cancel();
-                      _debounce = Timer(const Duration(milliseconds: 1000), () {
-                        _search(text);
+                    onFieldSubmitted:(String text){
+                      _search(text);
+                      setState(() {
+                        widget.T=text;
                       });
+                    },
+                    onChanged: (String text) {
+                      setState(() {
+                        widget.T=text;
+                      });
+//                      if (_debounce?.isActive ?? false) _debounce.cancel();
+//                      _debounce = Timer(const Duration(milliseconds: 1000), () {
+//                        setState(() {
+//                          text1=text;
+//                          _search(text);
+//                        });
+//                      });
                     },
 //                    controller: _controller,
                     decoration: InputDecoration(
@@ -126,7 +137,7 @@ class _ResultsPageState extends State<ResultsPage> {
                   color: Colors.white,
                 ),
                 onPressed: () {
-                  _search(text1);
+                  _search(widget.T);
                 },
               ),
               Card(
@@ -147,7 +158,7 @@ class _ResultsPageState extends State<ResultsPage> {
                       child: Row(
                         children: <Widget>[
                           user.icon,
-                          SizedBox(width: 10,),
+                SizedBox(width: 10,),
                           Text(
                             user.name,
                             style:  TextStyle(color: Colors.black),
