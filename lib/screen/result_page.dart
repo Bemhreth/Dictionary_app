@@ -46,31 +46,33 @@ class _ResultsPageState extends State<ResultsPage> {
   void _search (text)  {
         if(text.isNotEmpty) {
           print(text);
-      List<Map> DListData = List<Map>();
+      List<Map> dListData = List<Map>();
       alls.forEach((element) {
+        print('kinda');
         switch (widget.Mainlanguage) {
           case 'English':
+            print('yes');
             element['English'].toString().toLowerCase();
             if( element['English'].contains(text.toLowerCase())){
-              DListData.add(element);
+              dListData.add(element);
             }
             break;
           case 'Amharic':
-            if( element['Amharic'].contains(text.toLowerCase())){
-              DListData.add(element);
+            if( element['Amharic'].contains(text)){
+              dListData.add(element);
             }
             break;
           case 'Kistanigna':
-            if( element['Kistanigna'].contains(text.toLowerCase())){
-              DListData.add(element);
+            if( element['Kistanigna'].contains(text)){
+              dListData.add(element);
             }
             break;
         }
       });
       setState(()  {
         all.clear();
-        all.addAll(DListData);
-        DListData.clear();
+        all.addAll(dListData);
+        dListData.clear();
       });
       return;
     } else {
@@ -118,6 +120,13 @@ class _ResultsPageState extends State<ResultsPage> {
                   child: TextFormField(
                     cursorColor: Colors.black26,
                     style:TextStyle(color: Colors.black),
+                    onTap: () {
+                      FocusScopeNode currentFocus = FocusScope.of(context);
+
+                      if (!currentFocus.hasPrimaryFocus) {
+                        currentFocus.unfocus();
+                      }
+                    },
                     onFieldSubmitted:(String text){
                       _search(text);
                       setState(() {
@@ -157,30 +166,37 @@ class _ResultsPageState extends State<ResultsPage> {
               Card(
                 elevation: 5,
                 color: Colors.white,
-                child: DropdownButton<Item>(
-                  value: selectedUser==null?selectedUser=users[0]:selectedUser,
-                  onChanged: (Item Value) {
-                    setState(() {
-                      selectedUser = Value;
-                      widget.Mainlanguage=selectedUser.name;
-                      print(selectedUser.name);
-                    });
-                  },
-                  items: users.map((Item user) {
-                    return  DropdownMenuItem<Item>(
-                      value: user,
-                      child: Row(
-                        children: <Widget>[
-                          user.icon,
-                SizedBox(width: 10,),
-                          Text(
-                            user.name,
-                            style:  TextStyle(color: Colors.black),
+                child: Row(
+                  children: <Widget>[
+                    DropdownButton<Item>(
+                      dropdownColor: Colors.white,
+                      value: selectedUser==null?selectedUser=users[0]:selectedUser,
+                      onChanged: (Item Value) {
+                        setState(() {
+                          selectedUser = Value;
+                          widget.Mainlanguage=selectedUser.name;
+                          print(selectedUser.name);
+                        });
+                      },
+                      items: users.map((Item user) {
+                        return  DropdownMenuItem<Item>(
+                          value: user,
+                          child: Row(
+                            children: <Widget>[
+                              SizedBox(width: 15,),
+                              user.icon,
+                              SizedBox(width: 10,),
+                              Text(
+                                user.name,
+                                style:  TextStyle(color: Colors.black),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    );
-                  }).toList(),
+                        );
+                      }).toList(),
+                    ),
+                    Icon(Icons.arrow_drop_down,color: Colors.black,)
+                  ],
                 ),
               ),
             ],
