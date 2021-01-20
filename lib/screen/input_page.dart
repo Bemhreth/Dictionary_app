@@ -1,3 +1,5 @@
+import 'package:dictionary_app/component/imagerotater.dart';
+
 import 'Tab2.dart';
 import 'Tab3.dart';
 import 'package:flutter/material.dart';
@@ -13,32 +15,37 @@ class InputPage extends StatefulWidget {
 
 class _InputPageState extends State<InputPage> {
 
-
+List<String> images=[
+  'asset/1.jpg',
+  'asset/2.jpg',
+  'asset/3.jpg',
+  'asset/4.jpg',
+  'asset/5.jpg',
+  'asset/6.jpg',
+  'asset/7.jpg',
+  'asset/8.jpg',
+  'asset/ምድረ.jpg',
+  'asset/እንሰት.jpg',
+  'asset/እንሰት1.jpg',
+  'asset/እንሾሽላ1.jpg',
+  'asset/እንሾሽላ2.jpg',
+  'asset/ገበጣ.jpg',
+  'asset/ጉራጌ.jpg',
+  'asset/ጉራጌ1.jpg',
+];
   @override
   Widget build(BuildContext context) {
     //csvtolist();
     return CustomScrollView(
       slivers: <Widget>[
         SliverAppBar(
-//          centerTitle: true,
           pinned: true,
 
           title:Text('Kistanigna Dictionary'),
-//          FlatButton(
-//
-//        onPressed: () => {
-//        Navigator.push(
-//        context,
-//        MaterialPageRoute(builder: (context) => Tab3()),
-//        )},
-//    child: Column( // Replace with a Row for horizontal icon + text
-//    children: <Widget>[
-//    Icon(Icons.info)
-//    ],)),
           backgroundColor: Colors.green,
           expandedHeight: 200.0,
           flexibleSpace: FlexibleSpaceBar(
-            background: Image.asset('asset/forest.jpg', fit: BoxFit.cover),
+            background: ImageRotater(images),
           ),
         ),
         SliverFixedExtentList(
@@ -69,7 +76,7 @@ class _InputPageState extends State<InputPage> {
                   ),
                   body: TabBarView(
                     children: [
-                      ResultsPage('ኣመረተ','English','Amharic','Kistanigna'),
+                      ResultsPage('ኣመረተ','English','Amharic','Kistanigna',null),
                       Tab2('ኣመረተ','English','Amharic','Kistanigna'),
                       Tab3(),
                     ],
