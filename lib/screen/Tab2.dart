@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:dictionary_app/utility/dbconnection.dart';
 
+import 'package:dictionary_app/utility/dictionarymodel.dart';
+
+
 
 List<String> savedWords = List<String>();
 class Item {
@@ -47,10 +50,11 @@ class _Tab2State extends State<Tab2> {
   @override
   void initState() {
     super.initState();
-    _futurevalue=getdictionary();
+
 
   }
   List<Map<String, dynamic>> all;
+
 
   getdictionary() async{
 
@@ -65,7 +69,7 @@ class _Tab2State extends State<Tab2> {
 
   @override
   Widget build(BuildContext context) {
-
+    _futurevalue=getdictionary();
     return Scaffold(
       appBar: AppBar(
         bottom: PreferredSize(
@@ -144,6 +148,15 @@ class _Tab2State extends State<Tab2> {
                                       },
                                     ),
                                   ),
+                                  IconButton(icon: Icon(Icons.delete,color: Colors.red,)
+                                      ,
+                                      onPressed: (){
+                                        setState(() {
+                                          DBprovider.db.deletefavorite(all[index]['Kistanigna']);
+                                          DBprovider.db.updatefev(all[index]['Kistanigna'],0);
+                                        });
+                                      }
+                                  )
                                 ],
                               ),
                             ),

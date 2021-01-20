@@ -5,6 +5,7 @@ import 'package:dictionary_app/utility/dbconnection.dart';
 import 'package:dictionary_app/utility/dictionarymodel.dart';
 
 
+
 List<String> savedWords = List<String>();
 class Item {
   const Item(this.name,this.icon);
@@ -45,8 +46,8 @@ class _ResultsPageState extends State<ResultsPage> {
   void _search (text)  {
         if(text.isNotEmpty) {
       List<Map<String, dynamic>> dummyListData = List<Map<String, dynamic>>();
-    final item= all.where((e) => e['English']==text || e['Kistanigna'] == text || e['Amharic'] == text
-           );
+    final item= alls.where((e) => e['Kistanigna'] == text || e['Amharic'] == text
+          || e['English']==text);
     item.forEach((item) {
       print(item['Kistanigna']);
       dummyListData.add(item);
@@ -64,6 +65,12 @@ class _ResultsPageState extends State<ResultsPage> {
       });
     }
   }
+
+//    _streamController.add("waiting");
+//    Response response = await get(_url + _controller.text.trim(), headers: {"Authorization": "Token " + _token});
+//    _streamController.add(json.decode(response.body));
+//  }
+
   @override
   Future<void> initState()  {
     super.initState();
@@ -75,7 +82,7 @@ class _ResultsPageState extends State<ResultsPage> {
 
   getdictionary() async{
     alls= List.of(await DBprovider.db.getdictionary());
-    all= List.of(await DBprovider.db.getdictionary());
+
     setState(() {
       all=alls;
 //      print(all);
@@ -84,6 +91,7 @@ class _ResultsPageState extends State<ResultsPage> {
 
   @override
   Widget build(BuildContext context) {
+
     String text1;
     return Scaffold(
       appBar: AppBar(
@@ -98,7 +106,7 @@ class _ResultsPageState extends State<ResultsPage> {
                   margin: const EdgeInsets.only(left: 12.0, bottom: 8.0),
                   decoration: BoxDecoration(
                     color: Colors.white,
-//                    borderRadius: BorderRadius.circular(24.0),
+                    borderRadius: BorderRadius.circular(24.0),
                   ),
                   child: TextFormField(
                     cursorColor: Colors.black26,
@@ -110,7 +118,7 @@ class _ResultsPageState extends State<ResultsPage> {
                         _search(text);
                       });
                     },
-//                    controller: _controller,
+                    controller: _controller,
                     decoration: InputDecoration(
                       hintText: "Search for a word",
                       hintStyle: TextStyle(color: Colors.black),
@@ -219,17 +227,19 @@ class _ResultsPageState extends State<ResultsPage> {
                            if (all[index]['Favorite']!="0") {
                              setState(() {
                                //savedWords.remove(word);
-                               DBprovider.db.updateall(all[index]['id'], Dictionary(Amharic: all[index]['Amharic'],Kistanigna: all[index]['Kistanigna'],English: all[index]['English'],Definition: all[index]['Definition'],Favorite: "0"));
-                               DBprovider.db.deletefavorite(all[index]['Kistanigna']);
+                               DBprovider.db.updatefev(all[index]['Kistanigna'],0);
                                getdictionary();
+                               DBprovider.db.deletefavorite(all[index]['Kistanigna']);
+
                            });
                            } else {
                              setState(() {
                               // savedWords.add(word);
+                               DBprovider.db.updatefev(all[index]['Kistanigna'],1);
+                               getdictionary();
                                var newinfo= Dictionary(Amharic: all[index]['Amharic'],Kistanigna: all[index]['Kistanigna'],English: all[index]['English'],Definition: all[index]['Definition'],Favorite: "1");
                                DBprovider.db.newsfavorite(newinfo);
-                               DBprovider.db.updateall(all[index]['id'], Dictionary(Amharic: all[index]['Amharic'],Kistanigna: all[index]['Kistanigna'],English: all[index]['English'],Definition: all[index]['Definition'],Favorite: "1"));
-                               getdictionary();
+
                              });
 
                            }

@@ -115,16 +115,12 @@ class DBprovider{
   }
 
 
-  Future<void> updateall(int id, Dictionary dictionary) async{ // returns the number of rows updated
+
+  Future<void> updatefev(String id,int fev) async{ // returns the number of rows updated
 
     final db = await database;
 
-    await db.update(
-        "allword",
-        dictionary.toJson(),
-        where: "id = ?",
-        whereArgs: [id]
-    );
+    await db.rawUpdate('UPDATE allword SET Favorite = ? WHERE Kistanigna = ?', [fev, id]);
 
   }
 }
