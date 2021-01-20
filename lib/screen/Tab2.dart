@@ -50,26 +50,30 @@ class _Tab2State extends State<Tab2> {
   @override
   void initState() {
     super.initState();
-
+    _futurevalue=getdictionary();
 
   }
   List<Map<String, dynamic>> all;
+  List<Map<String, dynamic>> alls;
 
 
   getdictionary() async{
 
-    all= await DBprovider.db.getfavorite();
+    alls= await DBprovider.db.getfavorite();
     print("favorit database $all");
-    if(all!=null){
+    if(alls!=null){
       print("favorit database $all");
-      itemCount=all.length;
+      setState(() {
+        all=alls;
+      });
+      itemCount=alls.length;
     }
 
   }
 
   @override
   Widget build(BuildContext context) {
-    _futurevalue=getdictionary();
+
     return Scaffold(
       appBar: AppBar(
         bottom: PreferredSize(
@@ -122,7 +126,7 @@ class _Tab2State extends State<Tab2> {
 
                       itemBuilder: (BuildContext context, int index) {
 
-                        return all!=null? ListBody(
+                        return alls!=null? ListBody(
                           children: <Widget>[
                             Card(
                               elevation: 5,
@@ -153,6 +157,7 @@ class _Tab2State extends State<Tab2> {
                                       onPressed: (){
                                         setState(() {
                                           DBprovider.db.deletefavorite(all[index]['Kistanigna']);
+                                          getdictionary();
                                           DBprovider.db.updatefev(all[index]['Kistanigna'],0);
                                         });
                                       }

@@ -76,7 +76,7 @@ List<String> images=[
                   ),
                   body: TabBarView(
                     children: [
-                      ResultsPage('ኣመረተ','English','Amharic','Kistanigna',null),
+                      ResultsPage('ኣመረተ','English','Amharic','Kistanigna'),
                       Tab2('ኣመረተ','English','Amharic','Kistanigna'),
                       Tab3(),
                     ],

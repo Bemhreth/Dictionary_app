@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:dictionary_app/utility/dbconnection.dart';
 import 'package:dictionary_app/utility/dictionarymodel.dart';
+import 'package:sqflite/sqflite.dart';
+
 
 
 
@@ -18,8 +20,7 @@ class ResultsPage extends StatefulWidget {
    String Mainlanguage;
    String language1;
    String language2;
-   String T;
-  ResultsPage(this.definition,this.language1,this.language2,this.Mainlanguage,this.T);
+  ResultsPage(this.definition,this.language1,this.language2,this.Mainlanguage);
   @override
 
   _ResultsPageState createState() => _ResultsPageState();
@@ -29,8 +30,8 @@ class _ResultsPageState extends State<ResultsPage> {
 
   Item selectedUser;
   List<Item> users = <Item>[
-    const Item('ክስታንኛ',Icon(Icons.language,color: Colors.greenAccent,)),
-    const Item('አማርኛ',Icon(Icons.language,color:  Colors.greenAccent,)),
+    const Item('Kistanigna',Icon(Icons.language,color: Colors.greenAccent,)),
+    const Item('Amharic',Icon(Icons.language,color:  Colors.greenAccent,)),
     const Item('English',Icon(Icons.language,color:  Colors.greenAccent,)),
   ];
   TextEditingController _controller = TextEditingController();
@@ -39,7 +40,6 @@ class _ResultsPageState extends State<ResultsPage> {
   Stream _stream;
   List<Map> all=List<Map>();
   List<Map> alls=List<Map>();
-  List<Map> allz=List<Map>();
   List<Map<String, dynamic>> all1=List<Map<String, dynamic>>();
   Timer _debounce;
   Color fevcolor=Colors.black;
@@ -55,9 +55,9 @@ class _ResultsPageState extends State<ResultsPage> {
       dummyListData.add(item);
     });
       setState(()  {
+
         all.clear();
-        all.addAll(dListData);
-        dListData.clear();
+        all.addAll(dummyListData);
       });
       return;
     } else {
@@ -84,6 +84,7 @@ class _ResultsPageState extends State<ResultsPage> {
 
   getdictionary() async{
     alls= List.of(await DBprovider.db.getdictionary());
+
     setState(() {
       all=alls;
 //      print(all);
@@ -95,8 +96,14 @@ class _ResultsPageState extends State<ResultsPage> {
 
     String text1;
     return Scaffold(
+      appBar: AppBar(
+        bottom: PreferredSize(
           preferredSize: Size.fromHeight(48.0),
+          child: Row(
+            children: <Widget>[
 
+              Expanded(
+                flex: 2,
                 child: Container(
                   margin: const EdgeInsets.only(left: 12.0, bottom: 8.0),
                   decoration: BoxDecoration(
@@ -106,22 +113,16 @@ class _ResultsPageState extends State<ResultsPage> {
                   child: TextFormField(
                     cursorColor: Colors.black26,
                     style:TextStyle(color: Colors.black),
-                    onTap: () {
-                      FocusScopeNode currentFocus = FocusScope.of(context);
-
-                      if (!currentFocus.hasPrimaryFocus) {
-                        currentFocus.unfocus();
-                      }
-                    },
-                    onFieldSubmitted:(String text){
-                      _search(text);
-                      setState(() {
-                        widget.T=text;
+                    onChanged: (String text) {
+                      text1=text;
+                      if (_debounce?.isActive ?? false) _debounce.cancel();
+                      _debounce = Timer(const Duration(milliseconds: 1000), () {
+                        _search(text);
                       });
                     },
                     controller: _controller,
                     decoration: InputDecoration(
-                      hintText: (widget.Mainlanguage=='English')?"Search in English": (widget.Mainlanguage=='Amharic')?"በአማርኛ ይፈልጉ":"በክስታንኛ ሻ",
+                      hintText: "Search for a word",
                       hintStyle: TextStyle(color: Colors.black),
                       contentPadding: const EdgeInsets.only(left: 24.0),
                       border: InputBorder.none,
@@ -135,43 +136,36 @@ class _ResultsPageState extends State<ResultsPage> {
                   color: Colors.white,
                 ),
                 onPressed: () {
-                  _search(widget.T);
+                  _search(text1);
                 },
               ),
               Card(
                 elevation: 5,
                 color: Colors.white,
-                child: Row(
-                  children: <Widget>[
-                    DropdownButton<Item>(
-                      dropdownColor: Colors.white,
-                      value: selectedUser==null?selectedUser=users[0]:selectedUser,
-                      onChanged: (Item Value) {
-                        setState(() {
-                          selectedUser = Value;
-                          (selectedUser.name=='ክስታንኛ')?widget.Mainlanguage='Kistanigna':(selectedUser.name=='አማርኛ')?widget.Mainlanguage='Amharic':widget.Mainlanguage=selectedUser.name;
-                          print(selectedUser.name);
-                        });
-                      },
-                      items: users.map((Item user) {
-                        return  DropdownMenuItem<Item>(
-                          value: user,
-                          child: Row(
-                            children: <Widget>[
-                              SizedBox(width: 15,),
-                              user.icon,
-                              SizedBox(width: 10,),
-                              Text(
-                                user.name,
-                                style:  TextStyle(color: Colors.black),
-                              ),
-                            ],
+                child: DropdownButton<Item>(
+                  value: selectedUser==null?selectedUser=users[0]:selectedUser,
+                  onChanged: (Item Value) {
+                    setState(() {
+                      selectedUser = Value;
+                      widget.Mainlanguage=selectedUser.name;
+                      print(selectedUser.name);
+                    });
+                  },
+                  items: users.map((Item user) {
+                    return  DropdownMenuItem<Item>(
+                      value: user,
+                      child: Row(
+                        children: <Widget>[
+                          user.icon,
+                          SizedBox(width: 10,),
+                          Text(
+                            user.name,
+                            style:  TextStyle(color: Colors.black),
                           ),
-                        );
-                      }).toList(),
-                    ),
-                    Icon(Icons.arrow_drop_down,color: Colors.black,)
-                  ],
+                        ],
+                      ),
+                    );
+                  }).toList(),
                 ),
               ),
             ],
