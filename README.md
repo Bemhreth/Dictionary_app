@@ -1,4 +1,4 @@
-# dictionary_app
+# kistangna dictionary
 
 A new Flutter project.
 
