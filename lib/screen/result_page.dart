@@ -28,8 +28,8 @@ class _ResultsPageState extends State<ResultsPage> {
 
   Item selectedUser;
   List<Item> users = <Item>[
-    const Item('Kistanigna',Icon(Icons.language,color: Colors.greenAccent,)),
-    const Item('Amharic',Icon(Icons.language,color:  Colors.greenAccent,)),
+    const Item('ክስታንኛ',Icon(Icons.language,color: Colors.greenAccent,)),
+    const Item('አማርኛ',Icon(Icons.language,color:  Colors.greenAccent,)),
     const Item('English',Icon(Icons.language,color:  Colors.greenAccent,)),
   ];
   TextEditingController _controller = TextEditingController();
@@ -38,6 +38,7 @@ class _ResultsPageState extends State<ResultsPage> {
   Stream _stream;
   List<Map> all=List<Map>();
   List<Map> alls=List<Map>();
+  List<Map> allz=List<Map>();
   List<Map<String, dynamic>> all1=List<Map<String, dynamic>>();
   Timer _debounce;
   Color fevcolor=Colors.black;
@@ -47,7 +48,7 @@ class _ResultsPageState extends State<ResultsPage> {
         if(text.isNotEmpty) {
           print(text);
       List<Map> dListData = List<Map>();
-      alls.forEach((element) {
+      allz.forEach((element) {
         print('kinda');
         switch (widget.Mainlanguage) {
           case 'English':
@@ -94,6 +95,7 @@ class _ResultsPageState extends State<ResultsPage> {
   getdictionary() async{
     alls= List.of(await DBprovider.db.getdictionary());
     all= List.of(await DBprovider.db.getdictionary());
+    allz= List.of(await DBprovider.db.getdictionary());
     setState(() {
       all=alls;
 //      print(all);
@@ -133,20 +135,17 @@ class _ResultsPageState extends State<ResultsPage> {
                         widget.T=text;
                       });
                     },
-//                    onEditingComplete: _search(widget.T); ,
                     onChanged: (String text) {
                         if (_debounce?.isActive ?? false) _debounce.cancel();
                         _debounce = Timer(const Duration(milliseconds: 1000), () {
                           setState(() {
-//                            if(text==null)
                               _search(text);
                             widget.T=text;
                           });
                         });
                     },
-//                    controller: _controller,
                     decoration: InputDecoration(
-                      hintText: "Search for a word",
+                      hintText: (widget.Mainlanguage=='English')?"Search in English": (widget.Mainlanguage=='Amharic')?"በአማርኛ ይፈልጉ":"በክስታንኛ ይፈልጉ",
                       hintStyle: TextStyle(color: Colors.black),
                       contentPadding: const EdgeInsets.only(left: 24.0),
                       border: InputBorder.none,
@@ -174,7 +173,7 @@ class _ResultsPageState extends State<ResultsPage> {
                       onChanged: (Item Value) {
                         setState(() {
                           selectedUser = Value;
-                          widget.Mainlanguage=selectedUser.name;
+                          (selectedUser.name=='ክስታንኛ')?widget.Mainlanguage='Kistanigna':(selectedUser.name=='አማርኛ')?widget.Mainlanguage='Amharic':widget.Mainlanguage=selectedUser.name;
                           print(selectedUser.name);
                         });
                       },
