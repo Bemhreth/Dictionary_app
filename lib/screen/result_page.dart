@@ -145,7 +145,7 @@ class _ResultsPageState extends State<ResultsPage> {
                         });
                     },
                     decoration: InputDecoration(
-                      hintText: (widget.Mainlanguage=='English')?"Search in English": (widget.Mainlanguage=='Amharic')?"በአማርኛ ይፈልጉ":"በክስታንኛ ይፈልጉ",
+                      hintText: (widget.Mainlanguage=='English')?"Search in English": (widget.Mainlanguage=='Amharic')?"በአማርኛ ይፈልጉ":"በክስታንኛ ሻ",
                       hintStyle: TextStyle(color: Colors.black),
                       contentPadding: const EdgeInsets.only(left: 24.0),
                       border: InputBorder.none,
