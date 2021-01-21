@@ -26,6 +26,7 @@ dependencies:
   sqflite: any
   splashscreen: any
   csv: ^4.1.0
+  sk_onboarding_screen: ^1.0.1
 
 
   # The following adds the Cupertino Icons font to your application.

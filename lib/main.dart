@@ -5,6 +5,7 @@ import 'package:csv/csv.dart';
 import 'package:dictionary_app/utility/dbconnection.dart';
 import 'package:dictionary_app/utility/dictionarymodel.dart';
 import 'package:splashscreen/splashscreen.dart';
+//import 'package:sk_onboarding_screen/sk_onboarding_screen.dart';
 
  void main() async{
   // WidgetsFlutterBinding.ensureInitialized();
@@ -14,6 +15,11 @@ import 'package:splashscreen/splashscreen.dart';
 }
 
 class MyApp extends StatelessWidget {
+  List<String> images=[
+    'asset/welcome1.jpg',
+    'asset/welcome2.jpg',
+    'asset/welcome3.jpg',
+  ];
   static List<List<dynamic>> def;
   csvtolist() async{
 
@@ -46,8 +52,8 @@ def=CsvToListConverter(eol: "\n",fieldDelimiter: ",").convert(myData);
     csvtolist();
     return MaterialApp(
       theme: ThemeData.dark().copyWith(
-      primaryColor: Color(0xFF0A0E21),
-      scaffoldBackgroundColor: Color(0xFF0A0E21),
+      primaryColor: Color(0xFFadcf1a),
+      scaffoldBackgroundColor: Color(0xFFadcf1a),
       ),
       home: new SplashScreen(
           seconds: 3,

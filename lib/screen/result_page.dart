@@ -28,9 +28,9 @@ class _ResultsPageState extends State<ResultsPage> {
 
   Item selectedUser;
   List<Item> users = <Item>[
-    const Item('ክስታንኛ',Icon(Icons.language,color: Colors.greenAccent,)),
-    const Item('አማርኛ',Icon(Icons.language,color:  Colors.greenAccent,)),
-    const Item('English',Icon(Icons.language,color:  Colors.greenAccent,)),
+    const Item('ክስታንኛ',Icon(Icons.language,color: Colors.black,)),
+    const Item('አማርኛ',Icon(Icons.language,color:  Colors.black,)),
+    const Item('English',Icon(Icons.language,color:  Colors.black,)),
   ];
   TextEditingController _controller = TextEditingController();
 
@@ -232,7 +232,7 @@ class _ResultsPageState extends State<ResultsPage> {
 
                                         title: Text(
                                           widget.Mainlanguage=='Kistanigna'?  all[index]['Kistanigna']: all[index][widget.Mainlanguage] + "(" + all[index]['Kistanigna'] +
-                                              ")", style: TextStyle(color: Colors.black),),
+                                              ")", style: TextStyle(color: Color(0xFF654321),fontWeight: FontWeight.bold),),
                                         onTap: () {
                                           showDialog(
                                             context: context,
@@ -250,7 +250,7 @@ class _ResultsPageState extends State<ResultsPage> {
 
                                       icon: Icon(
                                         all[index]['Favorite']!="0"? Icons.star : Icons.star_border,
-                                        color: all[index]['Favorite']!="0" ? Colors.red : Colors.black,
+                                        color: all[index]['Favorite']!="0" ? Color(0xFFFFA500) : Colors.black,
                                       ),
                                       onPressed: (){
 
@@ -298,7 +298,8 @@ class _ResultsPageState extends State<ResultsPage> {
   }
   Widget _buildAboutDialog(BuildContext context) {
     return new AlertDialog(
-      title: const Text('Definition'),
+      backgroundColor: Color(0xFFFF8C00),
+      title: const Text('Definition',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
       content: new Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -313,7 +314,15 @@ class _ResultsPageState extends State<ResultsPage> {
             Navigator.of(context).pop();
           },
           textColor: Theme.of(context).primaryColor,
-          child: Card(elevation: 5,color: Colors.white,child: Text(widget.Mainlanguage=='English'?'Ok':'እሺ',style: const TextStyle(color: Color(0xFF111328)))),
+          child: Card(
+              elevation: 5,
+
+              color: Colors.white,
+              child: Text(
+                  widget.Mainlanguage=='English'?'Ok':'እሺ',
+                  style: const TextStyle(color: Color(0xFF111328))
+              )
+          ),
         ),
       ],
     );
@@ -321,13 +330,13 @@ class _ResultsPageState extends State<ResultsPage> {
   Widget _buildAboutText() {
     return new RichText(
       text: new TextSpan(
-        text: widget.language1+'\n\n',
-        style: const TextStyle(color: Colors.white),
+        text: "አማርኛ: "+widget.language1+'\n\n',
+        style: const TextStyle(color: Colors.black),
         children: <TextSpan>[
-          TextSpan(text:widget.language2+'\n\n\n',style: TextStyle(color: Colors.white)),
+          TextSpan(text:"English: "+widget.language2+'\n\n\n',style: TextStyle(color: Colors.black)),
 
           TextSpan(
-              text:widget.definition,style: TextStyle(color: Colors.white)
+              text:widget.definition,style: TextStyle(color: Colors.black)
           ),
 
           const TextSpan(text: '.'),

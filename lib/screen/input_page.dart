@@ -35,14 +35,12 @@ class _InputPageState extends State<InputPage> {
   ];
   @override
   Widget build(BuildContext context) {
-    //csvtolist();
     return CustomScrollView(
       slivers: <Widget>[
         SliverAppBar(
           pinned: true,
-
-          title:Text('Kistanigna Dictionary'),
-          backgroundColor: Colors.green,
+          title:Text('Kistani Dictionary'),
+          backgroundColor: Colors.white,
           expandedHeight: 200.0,
           flexibleSpace: FlexibleSpaceBar(
             background: ImageRotater(images),
@@ -57,22 +55,13 @@ class _InputPageState extends State<InputPage> {
                 child: Scaffold(
 
                   appBar: AppBar(
-//                    title: Card(
-//                      child: TextField(
-//                        decoration: InputDecoration(
-//                            border: InputBorder.none,
-//                            hintText: 'What are you looking for?'
-//                        ),
-//                      ),
-//                    ),
                     bottom: TabBar(
                       tabs: [
                         Tab(icon: Icon(Icons.home),text: 'Home', ),
                         Tab(icon: Icon(Icons.favorite), text: 'Favourites',),
-                        Tab(icon: Icon(Icons.info), text: 'About',),
+                        Tab(icon: Icon(Icons.more_horiz), text: 'About',),
                       ],
-                    ),
-                    // title: Text('Tabs Demo'),
+                    )
                   ),
                   body: TabBarView(
                     children: [

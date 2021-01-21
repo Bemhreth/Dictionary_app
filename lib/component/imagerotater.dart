@@ -18,7 +18,7 @@ class ImageRotaterState extends State<ImageRotater> {
 
   @override
   void initState() {
-  const oneSec = const Duration(seconds: 5); _timer = new Timer.periodic( oneSec, (Timer timer) => setState( () {
+  const oneSec = const Duration(seconds: 10); _timer = new Timer.periodic( oneSec, (Timer timer) => setState( () {
     _pos=_pos1.nextInt(15).toInt(); //
      }, ), );
     super.initState();
