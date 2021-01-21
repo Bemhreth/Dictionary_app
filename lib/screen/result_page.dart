@@ -232,7 +232,7 @@ class _ResultsPageState extends State<ResultsPage> {
 
                                         title: Text(
                                           widget.Mainlanguage=='Kistanigna'?  all[index]['Kistanigna']: all[index][widget.Mainlanguage] + "(" + all[index]['Kistanigna'] +
-                                              ")", style: TextStyle(color: Color(0xFF654321),fontWeight: FontWeight.bold),),
+                                              ")", style: TextStyle(color: Color(0xFF8b0000),fontWeight: FontWeight.bold,fontSize: 22),),
                                         onTap: () {
                                           showDialog(
                                             context: context,
@@ -298,8 +298,8 @@ class _ResultsPageState extends State<ResultsPage> {
   }
   Widget _buildAboutDialog(BuildContext context) {
     return new AlertDialog(
-      backgroundColor: Color(0xFFFF8C00),
-      title: const Text('Definition',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
+      backgroundColor: Color(0xFFEFB261),
+      title: const Text('Definition',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,),),
       content: new Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -319,7 +319,7 @@ class _ResultsPageState extends State<ResultsPage> {
 
               color: Colors.white,
               child: Text(
-                  widget.Mainlanguage=='English'?'Ok':'እሺ',
+                  (widget.Mainlanguage=='English')?'Ok':(widget.Mainlanguage=='Amharic')?'እሺ':'በይ',
                   style: const TextStyle(color: Color(0xFF111328))
               )
           ),
