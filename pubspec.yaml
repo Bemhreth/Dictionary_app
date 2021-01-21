@@ -26,6 +26,7 @@ dependencies:
   sqflite: any
   splashscreen: any
   csv: ^4.1.0
+  url_launcher: any
 
 
 

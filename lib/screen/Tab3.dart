@@ -1,4 +1,6 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 
 class Tab3 extends StatelessWidget {
@@ -6,21 +8,67 @@ class Tab3 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-//      appBar:AppBar(
-//        title: Text('About'),
-//      ),
+
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Row(
+          child: Column(
             children: <Widget>[
-              Text(' Kistanigna – Amharic – English \n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t Dictionary',
+              SizedBox(height: 20,),
+              Text(' Kistanigna – Amharic – English',
               style: TextStyle(color: Color(0xFF8b0000),fontWeight: FontWeight.bold,fontSize: 30),),
+              Center(
+                child: Text('Dictionary',
+                  style: TextStyle(color: Color(0xFF8b0000),fontWeight: FontWeight.bold,fontSize: 30),),
+              ),
+              SizedBox(height: 35,),
               Text('Published by:  © Kistane Gurage People\'s Development Association',
-                style: TextStyle(color: Color(0xFF8b0000),fontWeight: FontWeight.bold,fontSize: 30),),
+                style: TextStyle(color: Color(0xFF8b0000),fontWeight: FontWeight.bold,fontSize: 25),),
+              SizedBox(height: 35,),
+
+              Text('Developed by: Bemhereth Gezahegn and Amanuel Chala',
+                style: TextStyle(color: Color(0xFF8b0000),fontWeight: FontWeight.bold,fontSize: 25),),
+
+              SizedBox(height: 60,),
+              RichText(
+                  text: TextSpan(
+                      children: [
+                        TextSpan(
+                            style: TextStyle(color: Color(0xFF8b0000),fontWeight: FontWeight.bold,fontSize: 20),
+                            text: "To learn more ",
+
+
+                        ),
+                        TextSpan(
+                            style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold,fontSize: 20,decoration: TextDecoration.underline,),
+                            text: "Click here",
+                            recognizer: TapGestureRecognizer()..onTap =  () async{
+                              var url = "https://drive.google.com/file/d/1LmaZwU_Ji0qS52Rf7ZVeRKjn7u627nWf/view?usp=drivesdk";
+                              if (await canLaunch(url)) {
+                                await launch(url);
+                              } else {
+                                throw 'Could not launch $url';
+                              }
+                            }
+                        ),
+                      ]
+                  )),
+              SizedBox(height: 15,),
+              Center(
+                child: Text('V1.0',
+                  style: TextStyle(color: Color(0xFF8b0000),fontWeight: FontWeight.bold,fontSize: 30),),
+              ),
+              SizedBox(height: 20,),
+              Center(
+                child: Text('©2021 Ejbat ',
+                  style: TextStyle(color: Color(0xFF8b0000),fontWeight: FontWeight.bold,fontSize: 30),),
+              ),
+
             ],
           ),
+
         ),
+
       ),
     );
   }
