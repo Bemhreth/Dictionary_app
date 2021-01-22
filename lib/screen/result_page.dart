@@ -298,7 +298,7 @@ class _ResultsPageState extends State<ResultsPage> {
   }
   Widget _buildAboutDialog(BuildContext context) {
     return new AlertDialog(
-      backgroundColor: Color(0xFFEFB261),
+      backgroundColor: Colors.white,
       title: const Text('Definition',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,),),
       content: new Column(
         mainAxisSize: MainAxisSize.min,
@@ -310,17 +310,23 @@ class _ResultsPageState extends State<ResultsPage> {
       ),
       actions: <Widget>[
         new FlatButton(
+
           onPressed: () {
             Navigator.of(context).pop();
           },
+
           textColor: Theme.of(context).primaryColor,
           child: Card(
+
               elevation: 5,
 
-              color: Colors.white,
-              child: Text(
-                  (widget.Mainlanguage=='English')?'Ok':(widget.Mainlanguage=='Amharic')?'እሺ':'በይ',
-                  style: const TextStyle(color: Color(0xFF111328))
+              color: Color(0xFF8b0000),
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                child: Text(
+                    (widget.Mainlanguage=='English')?'Ok':(widget.Mainlanguage=='Amharic')?'እሺ':'በይ',
+                    style: const TextStyle(color: Colors.white,fontSize: 15)
+                ),
               )
           ),
         ),
@@ -331,12 +337,12 @@ class _ResultsPageState extends State<ResultsPage> {
     return new RichText(
       text: new TextSpan(
         text: "አማርኛ: "+widget.language1+'\n\n',
-        style: const TextStyle(color: Colors.black),
+        style: const TextStyle(color: Color(0xFF8b0000)),
         children: <TextSpan>[
-          TextSpan(text:"English: "+widget.language2+'\n\n\n',style: TextStyle(color: Colors.black)),
+          TextSpan(text:"English: "+widget.language2+'\n\n\n',style: TextStyle(color: Color(0xFF8b0000))),
 
           TextSpan(
-              text:widget.definition,style: TextStyle(color: Colors.black)
+              text:widget.definition,style: TextStyle(color: Color(0xFF8b0000),fontSize: 15)
           ),
 
           const TextSpan(text: '.'),
