@@ -23,7 +23,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  sqflite: any
+  sqflite: ^1.3.2+2
   splashscreen: any
   csv: ^4.1.0
 
