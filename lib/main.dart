@@ -1,3 +1,4 @@
+import 'package:dictionary_app/screen/myhomepage.dart';
 import 'package:flutter/material.dart';
 import 'screen/input_page.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -43,7 +44,7 @@ def=CsvToListConverter(eol: "\n",fieldDelimiter: ",").convert(myData);
       primaryColor: Color(0xFFadcf1a),
       scaffoldBackgroundColor: Color(0xFFadcf1a),
       ),
-      home:InputPage()
+      home:MyHomePage()
     );
   }
 }

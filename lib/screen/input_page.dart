@@ -3,7 +3,6 @@ import 'package:dictionary_app/component/imagerotater.dart';
 import 'Tab2.dart';
 import 'Tab3.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'result_page.dart';
 
 
