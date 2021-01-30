@@ -38,11 +38,10 @@ class _InputPageState extends State<InputPage> {
       slivers: <Widget>[
         SliverAppBar(
           pinned: true,
-//          title:Text('Kistani Dictionary'),
           backgroundColor: Colors.white,
           expandedHeight: 200.0,
           flexibleSpace: FlexibleSpaceBar(
-            background: ImageRotater(images),
+            background: ImageRotater(images,0),
           ),
         ),
         SliverFixedExtentList(

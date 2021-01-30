@@ -10,6 +10,7 @@ class Dictionary{
   String English;
   String Definition;
   String Favorite;
+  String check;
 
   Dictionary({
     this.Amharic,
@@ -17,6 +18,7 @@ class Dictionary{
     this.English,
     this.Definition,
     this.Favorite,
+    this.check,
   });
 
   factory Dictionary.fromJson(Map<String, dynamic> json) => Dictionary(
@@ -25,6 +27,7 @@ class Dictionary{
     English: json['English'],
     Definition: json['Definition'],
     Favorite: json['Favorite'],
+    check: json['check'],
 );
 
   Map<String, dynamic> toJson() =>{
@@ -33,5 +36,6 @@ class Dictionary{
     "English": English,
     "Definition": Definition,
     "Favorite" : Favorite,
+    "check": check,
   };
 }

@@ -23,24 +23,24 @@ class Tab3 extends StatelessWidget {
               ),
               SizedBox(height: 35,),
               Text('Published by:  © Kistane Gurage People\'s Development Association',
-                style: TextStyle(color: Color(0xFF8b0000),fontWeight: FontWeight.bold,fontSize: 25),),
+                style: TextStyle(color: Color(0xFF8b0000),fontSize: 25),),
               SizedBox(height: 35,),
 
               Text('Developed by: Bemhereth Gezahegn and Amanuel Chala',
-                style: TextStyle(color: Color(0xFF8b0000),fontWeight: FontWeight.bold,fontSize: 25),),
+                style: TextStyle(color: Color(0xFF8b0000),fontSize: 25),),
 
               SizedBox(height: 60,),
               RichText(
                   text: TextSpan(
                       children: [
                         TextSpan(
-                            style: TextStyle(color: Color(0xFF8b0000),fontWeight: FontWeight.bold,fontSize: 20),
+                            style: TextStyle(color: Color(0xFF8b0000),fontSize: 20),
                             text: "To learn more ",
 
 
                         ),
                         TextSpan(
-                            style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold,fontSize: 20,decoration: TextDecoration.underline,),
+                            style: TextStyle(color: Colors.red,fontSize: 20,decoration: TextDecoration.underline,),
                             text: "Click here",
                             recognizer: TapGestureRecognizer()..onTap =  () async{
                               var url = "https://drive.google.com/file/d/1LmaZwU_Ji0qS52Rf7ZVeRKjn7u627nWf/view?usp=drivesdk";

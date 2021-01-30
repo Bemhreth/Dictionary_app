@@ -4,8 +4,9 @@ import 'package:flutter/cupertino.dart';
 
 class ImageRotater extends StatefulWidget {
   List<String> photos;
+  int check;
 
-  ImageRotater(this.photos);
+  ImageRotater(this.photos, this.check);
 
   @override
   State<StatefulWidget> createState() => new ImageRotaterState();
@@ -18,9 +19,18 @@ class ImageRotaterState extends State<ImageRotater> {
 
   @override
   void initState() {
-  const oneSec = const Duration(seconds: 10); _timer = new Timer.periodic( oneSec, (Timer timer) => setState( () {
-    _pos=_pos1.nextInt(15).toInt(); //
+    if(widget.check==0){
+  const oneSec = const Duration(seconds: 10);
+    _timer = new Timer.periodic( oneSec, (Timer timer) => setState( () {
+    _pos=_pos1.nextInt(15).toInt();
      }, ), );
+    }
+    else if(widget.check==1){
+      const oneSec = const Duration(seconds: 3);
+      _timer = new Timer.periodic( oneSec, (Timer timer) => setState( () {
+        _pos=_pos1.nextInt(2).toInt();
+      }, ), );
+    }
     super.initState();
   }
 

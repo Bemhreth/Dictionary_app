@@ -32,10 +32,7 @@ class _ResultsPageState extends State<ResultsPage> {
     const Item('አማርኛ',Icon(Icons.language,color:  Colors.black,)),
     const Item('English',Icon(Icons.language,color:  Colors.black,)),
   ];
-  TextEditingController _controller = TextEditingController();
 
-  StreamController _streamController;
-  Stream _stream;
   List<Map> all=List<Map>();
   List<Map> alls=List<Map>();
   List<Map> allz=List<Map>();
@@ -86,8 +83,6 @@ class _ResultsPageState extends State<ResultsPage> {
   @override
   Future<void> initState()  {
     super.initState();
-    _streamController = StreamController();
-    _stream = _streamController.stream;
     _futurevalue=getdictionary();
   }
 
@@ -117,7 +112,6 @@ class _ResultsPageState extends State<ResultsPage> {
                   margin: const EdgeInsets.only(left: 12.0, bottom: 8.0),
                   decoration: BoxDecoration(
                     color: Colors.white,
-//                    borderRadius: BorderRadius.circular(24.0),
                   ),
                   child: TextFormField(
                     cursorColor: Colors.black26,
@@ -232,7 +226,7 @@ class _ResultsPageState extends State<ResultsPage> {
 
                                         title: Text(
                                           widget.Mainlanguage=='Kistanigna'?  all[index]['Kistanigna']: all[index][widget.Mainlanguage] + "(" + all[index]['Kistanigna'] +
-                                              ")", style: TextStyle(color: Color(0xFF8b0000),fontWeight: FontWeight.bold,fontSize: 22),),
+                                              ")", style: TextStyle(color: Color(0xFF8b0000),fontWeight: FontWeight.bold,fontSize: 20),),
                                         onTap: () {
                                           showDialog(
                                             context: context,
@@ -367,9 +361,5 @@ class _ResultsPageState extends State<ResultsPage> {
       ),
     );
   }
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<StreamController>('_streamController', _streamController));
-  }
+
 }

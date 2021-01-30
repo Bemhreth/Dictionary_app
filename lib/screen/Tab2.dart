@@ -26,15 +26,11 @@ class Tab2 extends StatefulWidget {
 }
 class _Tab2State extends State<Tab2> {
 
-
-
-//  String _url = "https://owlbot.info/api/v4/dictionary/";
-//  String _token = "6bcd31a2dff4b7e3c3b0c10eda0408625e6f0950";
   Item selectedUser;
   List<Item> users = <Item>[
-    const Item('Kistanigna',Icon(Icons.language,color: Colors.greenAccent,)),
-    const Item('Amharic',Icon(Icons.language,color:  Colors.greenAccent,)),
-    const Item('English',Icon(Icons.language,color:  Colors.greenAccent,)),
+    const Item('ክስታንኛ',Icon(Icons.language,color: Colors.black,)),
+    const Item('አማርኛ',Icon(Icons.language,color:  Colors.black,)),
+    const Item('English',Icon(Icons.language,color:  Colors.black,)),
   ];
   TextEditingController _controller = TextEditingController();
 
@@ -82,11 +78,12 @@ class _Tab2State extends State<Tab2> {
             elevation: 5,
             color: Colors.white,
             child: DropdownButton<Item>(
+              dropdownColor: Colors.white,
               value: selectedUser==null?selectedUser=users[0]:selectedUser,
               onChanged: (Item Value) {
                 setState(() {
                   selectedUser = Value;
-                  widget.Mainlanguage=selectedUser.name;
+                  (selectedUser.name=='ክስታንኛ')?widget.Mainlanguage='Kistanigna':(selectedUser.name=='አማርኛ')?widget.Mainlanguage='Amharic':widget.Mainlanguage=selectedUser.name;
                   print(selectedUser.name);
                 });
               },
