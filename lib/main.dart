@@ -1,4 +1,4 @@
-import 'package:dictionary_app/screen/onbourdingpage.dart';
+import 'package:dictionary_app/screen/myhomepage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:csv/csv.dart';
@@ -36,7 +36,7 @@ def=CsvToListConverter(eol: "\n",fieldDelimiter: ",").convert(myData);
       primaryColor: Color(0xFFadcf1a),
       scaffoldBackgroundColor: Color(0xFFadcf1a),
       ),
-      home:OnBoardingPage()
+      home:MyHomePage()
     );
   }
 }

@@ -1,8 +1,7 @@
-import 'package:dictionary_app/utility/dbconnection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'myhomepage.dart';
+import 'input_page.dart';
 
 class OnBoardingPage extends StatefulWidget {
   @override
@@ -20,7 +19,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
 //    all= List.of(await DBprovider.db.getcheck());
 //    print(all[0]['check']);
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => MyHomePage()),
+      MaterialPageRoute(builder: (_) => InputPage()),
     );
   }
 
