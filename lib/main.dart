@@ -34,7 +34,7 @@ def=CsvToListConverter(eol: "\n",fieldDelimiter: ",").convert(myData);
     return MaterialApp(
       theme: ThemeData.dark().copyWith(
       primaryColor: Color(0xFFadcf1a),
-      scaffoldBackgroundColor: Color(0xFFadcf1a),
+      scaffoldBackgroundColor: Color(0xFF7da52a),
       ),
       home:MyHomePage()
     );

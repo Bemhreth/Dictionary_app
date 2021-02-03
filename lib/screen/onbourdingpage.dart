@@ -13,11 +13,6 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
   List<Map> all=List<Map>();
 
   Future<void> _onIntroEnd(context) async {
-//    all= List.of(await DBprovider.db.getcheck());
-//    DBprovider.db.updatecheck(all[0]['check'],1);
-//    DBprovider.db.deletecheck(all[0]['check']);
-//    all= List.of(await DBprovider.db.getcheck());
-//    print(all[0]['check']);
     Navigator.of(context).push(
       MaterialPageRoute(builder: (_) => InputPage()),
     );
@@ -45,38 +40,24 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       key: introKey,
       pages: [
         PageViewModel(
-          title: "Fractional shares",
+          title: "",
           body:
-          "Instead of having to buy an entire share, invest any amount you want.",
-          image: _buildImage('intro1'),
-//          decoration: pageDecoration,
-        ),
-        PageViewModel(
-          title: "Learn as you go",
-          body:
-          "Download the Stockpile app and master the market with our mini-lesson.",
+          "",
           image: _buildImage('intro2'),
 //          decoration: pageDecoration,
         ),
         PageViewModel(
-          title: "Kids and teens",
+          title: "Kistane Gurage People's Development Association",
           body:
-          "Kids and teens can track their stocks 24/7 and place trades that you approve.",
-          image: _buildImage('intro3'),
-
+          "All right reserved, No part of this publication may be reproduced, stored in a retrieval system, or transmitted, in any form or by any means, without the prior permission in writing of Kistane Gurage People's Development Association.",
+          image: _buildImage('intro1'),
 //          decoration: pageDecoration,
         ),
         PageViewModel(
-          title: "Title of last page",
-          bodyWidget: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Text("Click on ", style: bodyStyle),
-              Icon(Icons.edit),
-              Text(" to edit a post", style: bodyStyle),
-            ],
-          ),
-          image: _buildImage('6'),
+          title: "",
+          body:
+          "",
+          image: _buildImage('intro3'),
 //          decoration: pageDecoration,
         ),
       ],
@@ -86,7 +67,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       skipFlex: 0,
       nextFlex: 0,
       skip: const Text('Skip',style: TextStyle(color: Colors.black),),
-      next: const Icon(Icons.arrow_forward),
+      next: const Icon(Icons.arrow_forward,color: Colors.black),
       done: const Text('Done', style: TextStyle(fontWeight: FontWeight.w600)),
       dotsDecorator: const DotsDecorator(
         size: Size(10.0, 10.0),
