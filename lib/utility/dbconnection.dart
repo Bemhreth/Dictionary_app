@@ -127,11 +127,11 @@ class DBprovider{
     );
 
   }
-  Future<void> updatefev(String id) async{ // returns the number of rows updated
+  Future<void> updatefev(String id, int val) async{ // returns the number of rows updated
 
     final db = await database;
 
-    await db.rawUpdate('UPDATE allword SET Favorite = ? WHERE Kistanigna = ?', [0, id]);
+    await db.rawUpdate('UPDATE allword SET Favorite = ? WHERE Kistanigna = ?', [val, id]);
 
   }
 }

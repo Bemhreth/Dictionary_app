@@ -253,14 +253,14 @@ class _ResultsPageState extends State<ResultsPage> {
                                         if (all[index]['Favorite']!="0") {
                                           setState(() {
                                             //savedWords.remove(word);
-                                            DBprovider.db.updatefev(all[index]['Kistanigna']);
+                                            DBprovider.db.updatefev(all[index]['Kistanigna'],0);
                                             getdictionary();
                                             DBprovider.db.deletefavorite(all[index]['Kistanigna']);
                                           });
                                         } else {
                                           setState(() {
                                             // savedWords.add(word);
-                                            DBprovider.db.updatefev(all[index]['Kistanigna']);
+                                            DBprovider.db.updatefev(all[index]['Kistanigna'],1);
                                             getdictionary();
                                             var newinfo= Dictionary(Amharic: all[index]['Amharic'],Kistanigna: all[index]['Kistanigna'],English: all[index]['English'],Definition: all[index]['Definition'],Favorite: "1");
                                             DBprovider.db.newsfavorite(newinfo);

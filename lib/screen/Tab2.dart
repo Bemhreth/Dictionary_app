@@ -155,7 +155,7 @@ class _Tab2State extends State<Tab2> {
                                         setState(() {
                                           DBprovider.db.deletefavorite(all[index]['Kistanigna']);
                                           getdictionary();
-                                          DBprovider.db.updatefev(all[index]['Kistanigna']);
+                                          DBprovider.db.updatefev(all[index]['Kistanigna'],0);
                                         });
                                       }
                                   )
