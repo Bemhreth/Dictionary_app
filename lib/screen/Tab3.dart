@@ -46,7 +46,10 @@ class Tab3 extends StatelessWidget {
 
               Text('Developed by: Bemhereth Gezahegn and Amanuel Chala',
                 style: TextStyle(color: Color(0xFF8b0000),fontSize: 19),),
+              SizedBox(height: 35,),
 
+              Text('Graphics by: Caleb Tesfaye',
+                style: TextStyle(color: Color(0xFF8b0000),fontSize: 19),),
               SizedBox(height: 60,),
               RichText(
                   text: TextSpan(
