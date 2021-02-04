@@ -77,12 +77,12 @@ class Tab3 extends StatelessWidget {
               SizedBox(height: 15,),
               Center(
                 child: Text('V1.0',
-                  style: TextStyle(color: Color(0xFF8b0000),fontWeight: FontWeight.bold,fontSize: 30),),
+                  style: TextStyle(color: Color(0xFF8b0000),fontSize: 25),),
               ),
               SizedBox(height: 20,),
               Center(
                 child: Text('©2021 Ejbat ',
-                  style: TextStyle(color: Color(0xFF8b0000),fontWeight: FontWeight.bold,fontSize: 30),),
+                  style: TextStyle(color: Color(0xFF8b0000),fontSize: 25),),
               ),
 
             ],

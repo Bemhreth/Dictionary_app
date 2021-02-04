@@ -64,12 +64,12 @@ class _InputPageState extends State<InputPage> with SingleTickerProviderStateMix
             ),
             bottom: TabBar(
               tabs: <Widget>[
-                Tab(icon: Icon(Icons.home,color: Color(0xFF7da52a),),text: 'Home', ),
-                Tab(icon: Icon(Icons.favorite,color: Color(0xFF7da52a),), text: 'Favourites',),
-                Tab(icon: Icon(Icons.more_horiz,color: Color(0xFF7da52a),), text: 'About',),
+                Tab(icon: Icon(Icons.home,color: Color(0xFF8b0000),),text: 'Home', ),
+                Tab(icon: Icon(Icons.favorite,color: Color(0xFF8b0000),), text: 'Favourites',),
+                Tab(icon: Icon(Icons.more_horiz,color: Color(0xFF8b0000),), text: 'About',),
               ],
               controller: _tabController,
-              labelColor: Colors.black,
+              labelColor: Color(0xFF8b0000),
             ),
           ),
 //          SliverFixedExtentList(
