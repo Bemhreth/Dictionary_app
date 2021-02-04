@@ -31,7 +31,7 @@ class Tab3 extends StatelessWidget {
               }, child:Card(
                 elevation: 5,
                 color:Color(0xFFadcf1a),
-                child: Text('የክስታንኛ የፊደል ገበታ ለመመልከት ይህንን ይጫኑ',
+                child: Text('የክስታንኛ የፊደል ገበታ እና ተጨማሪ ማስታወሻዎች ለመመልከት ይህን ይጫኑ',
                   style: TextStyle(color: Color(0xFF8b0000),fontSize: 20,fontWeight: FontWeight.bold),
                 ),
               ),),

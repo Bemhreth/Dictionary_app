@@ -12,8 +12,9 @@ class InputPage extends StatefulWidget {
   _InputPageState createState() => _InputPageState();
 }
 
-class _InputPageState extends State<InputPage> {
-
+class _InputPageState extends State<InputPage> with SingleTickerProviderStateMixin {
+  TabController _tabController;
+  ScrollController _scrollViewController;
   List<String> images=[
     'asset/1.jpg',
     'asset/2.jpg',
@@ -33,47 +34,84 @@ class _InputPageState extends State<InputPage> {
     'asset/ጉራጌ1.jpg',
   ];
   @override
-  Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: <Widget>[
-        SliverAppBar(
-          pinned: true,
-          backgroundColor: Colors.white,
-          expandedHeight: 200.0,
-          flexibleSpace: FlexibleSpaceBar(
-            background: ImageRotater(images,0),
-          ),
-        ),
-        SliverFixedExtentList(
-          itemExtent: 900.0,
-          delegate: SliverChildListDelegate(
-            [
-              DefaultTabController(
-                length: 3,
-                child: Scaffold(
+  void initState() {
+    super.initState();
+    _tabController = TabController(vsync: this, length: 3);
+    _scrollViewController = ScrollController(initialScrollOffset: 0.0);
+  }
 
-                  appBar: AppBar(
-                    bottom: TabBar(
-                      tabs: [
-                        Tab(icon: Icon(Icons.home),text: 'Home', ),
-                        Tab(icon: Icon(Icons.favorite), text: 'Favourites',),
-                        Tab(icon: Icon(Icons.more_horiz), text: 'About',),
-                      ],
-                    )
-                  ),
-                  body: TabBarView(
-                    children: [
-                      ResultsPage('ኣመረተ','English','Amharic','Kistanigna',null),
-                      Tab2('ኣመረተ','English','Amharic','Kistanigna'),
-                      Tab3(),
-                    ],
-                  ),
-                ),
-              ),
-            ],
+  @override
+  void dispose() {
+    _tabController.dispose();
+    _scrollViewController.dispose();
+    super.dispose();
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: NestedScrollView(
+        controller: _scrollViewController,
+        headerSliverBuilder: (BuildContext context, bool boxIsScrolled) {
+      return <Widget>[
+          SliverAppBar(
+            pinned: true,
+            floating: true,
+            forceElevated: boxIsScrolled,
+            backgroundColor: Colors.white,
+            expandedHeight: 200.0,
+            flexibleSpace: FlexibleSpaceBar(
+              background: ImageRotater(images,0),
+            ),
+            bottom: TabBar(
+              tabs: <Widget>[
+                Tab(icon: Icon(Icons.home,color: Color(0xFF7da52a),),text: 'Home', ),
+                Tab(icon: Icon(Icons.favorite,color: Color(0xFF7da52a),), text: 'Favourites',),
+                Tab(icon: Icon(Icons.more_horiz,color: Color(0xFF7da52a),), text: 'About',),
+              ],
+              controller: _tabController,
+              labelColor: Colors.black,
+            ),
           ),
-        ),
-      ],
+//          SliverFixedExtentList(
+//            itemExtent: 900.0,
+//            delegate: SliverChildListDelegate(
+//              [
+//                DefaultTabController(
+//                  length: 3,
+//                  child: Scaffold(
+//
+//                    appBar: AppBar(
+//                      bottom: TabBar(
+//                        tabs: [
+//                          Tab(icon: Icon(Icons.home),text: 'Home', ),
+//                          Tab(icon: Icon(Icons.favorite), text: 'Favourites',),
+//                          Tab(icon: Icon(Icons.more_horiz), text: 'About',),
+//                        ],
+//                      )
+//                    ),
+//                    body: TabBarView(
+//                      children: [
+//                        ResultsPage('ኣመረተ','English','Amharic','Kistanigna',null),
+//                        Tab2('ኣመረተ','English','Amharic','Kistanigna'),
+//                        Tab3(),
+//                      ],
+//                    ),
+//                  ),
+//                ),
+//              ],
+//            ),
+//          ),
+     ];
+      },
+            body:TabBarView(
+              children: <Widget>[
+                ResultsPage('ኣመረተ','English','Amharic','Kistanigna',null),
+                Tab2('ኣመረተ','English','Amharic','Kistanigna'),
+                Tab3(),
+              ],
+              controller: _tabController,
+            ),
+      ),
     );
   }
 }
